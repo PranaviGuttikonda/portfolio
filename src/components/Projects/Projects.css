@@ -1,0 +1,129 @@
+.proj__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.proj__card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.25s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.proj__card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.proj__card:hover {
+  border-color: rgba(0, 255, 136, 0.25);
+  transform: translateY(-4px);
+}
+
+.proj__card:hover::before {
+  opacity: 1;
+}
+
+.proj__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.proj__folder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.proj__folder-icon {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.proj__type {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+}
+
+.proj__link {
+  font-size: 18px;
+  color: var(--text3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.proj__link:hover {
+  color: var(--accent);
+}
+
+.proj__name {
+  font-family: "Syne", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.proj__desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+}
+
+.proj__highlight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.proj__highlight-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.proj__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.proj__tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--text3);
+  padding: 3px 8px;
+  background: var(--bg2);
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+}

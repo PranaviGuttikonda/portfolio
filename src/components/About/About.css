@@ -1,0 +1,88 @@
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+.about__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about__text p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+
+.about__highlight {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.about__edu-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+}
+
+.about__edu-card:hover {
+  border-color: rgba(0, 255, 136, 0.2);
+}
+
+.about__edu-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.about__edu-school {
+  font-family: "Syne", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.about__edu-degree {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
+
+.about__edu-meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.about__edu-honors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.about__honor {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: rgba(0, 255, 136, 0.07);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 3px;
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

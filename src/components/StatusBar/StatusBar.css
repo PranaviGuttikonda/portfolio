@@ -1,0 +1,46 @@
+.statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 24px;
+  background: #007acc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+  user-select: none;
+}
+
+.statusbar__left,
+.statusbar__right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.statusbar__item {
+  padding: 0 10px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.statusbar__item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.statusbar__item--branch {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.statusbar__item--branch:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
