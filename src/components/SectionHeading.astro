@@ -1,0 +1,55 @@
+---
+// Given: every section opens with "01. Title ───────".
+// Approach: a flex row with the mono number, the title, and a 1px line that fills the rest.
+
+interface Props {
+  num: string;
+  title: string;
+  id?: string;
+}
+
+const { num, title, id } = Astro.props;
+---
+
+<h2 class="section-heading" id={id}>
+  <span class="section-heading__num">{num}</span>
+  <span class="section-heading__title">{title}</span>
+</h2>
+
+<style>
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 40px;
+    font-size: clamp(24px, 3.2vw, 32px);
+  }
+
+  .section-heading__num {
+    font-family: var(--font-mono);
+    font-size: 0.62em;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--accent);
+  }
+
+  .section-heading__title {
+    white-space: nowrap;
+  }
+
+  .section-heading::after {
+    content: '';
+    flex: 1;
+    align-self: center;
+    min-width: 24px;
+    height: 1px;
+    margin-left: 12px;
+    background: var(--border-strong);
+  }
+
+  @media (max-width: 479px) {
+    .section-heading__title {
+      white-space: normal;
+    }
+  }
+</style>

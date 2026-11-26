@@ -1,13 +1,46 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pranavi Guttikonda</title>
-  </head>
-  <body>
-    <h1>hi, I'm Pranavi.</h1>
-  </body>
-</html>
+
+<BaseLayout>
+  <!-- Hero and chat land in Phase 2. -->
+  <section class="hero dot-grid">
+    <div class="container">
+      <h1>hi, I'm <span class="accent">Pranavi</span>.</h1>
+    </div>
+  </section>
+
+  <section id="experience" class="section container">
+    <SectionHeading num="01." title="Where I've worked" />
+  </section>
+
+  <section id="projects" class="section container">
+    <SectionHeading num="02." title="Things I've built" />
+  </section>
+
+  <section id="skills" class="section container">
+    <SectionHeading num="03." title="Toolbox" />
+  </section>
+
+  <section id="contact" class="section container"></section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 120px;
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 8vw, 76px);
+    letter-spacing: -0.04em;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
+  .section {
+    min-height: 40vh;
+  }
+</style>
