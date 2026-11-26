@@ -44,7 +44,12 @@ export const qa: QA[] = [
   {
     keywords: ['building', 'project', 'quorum', 'raft', 'cafe', 'café', 'side'],
     answer:
-      'Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing, and Rush Hour Café, a multi-agent pathfinding simulation. Both are in the Projects section below.',
+      'Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below.',
+  },
+  {
+    keywords: ['quidd', 'finance', 'budget', 'budgeting', 'money', 'app'],
+    answer:
+      "Quidd is a personal finance app she's building in React Native with Supabase. It uses a rule-based 'spendable-first' budgeting engine, so it shows what you can still safely spend, with deterministic logic instead of LLM calculations.",
   },
   {
     keywords: ['stack', 'skill', 'language', 'tech', 'c++', 'python', 'java'],
