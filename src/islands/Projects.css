@@ -210,6 +210,17 @@
 
 /* ---------- Phone: tabs become a scrolling row of pills ---------- */
 @media (max-width: 599px) {
+  /* Given: on phones a fixed-height stage leaves empty space under short projects.
+     Approach: only the selected details layer takes up space (the preview stays a
+     fixed 260px), and it fades in when it appears. */
+  .proj__details .proj__layer:not(.is-active) {
+    display: none;
+  }
+
+  .proj__details .proj__layer.is-active {
+    animation: proj-fade-in 0.2s var(--ease);
+  }
+
   .proj__tabs {
     display: flex;
     gap: 8px;
@@ -242,10 +253,17 @@
   }
 }
 
+@keyframes proj-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .proj__layer,
   .proj__layer.is-active {
     transition: none;
+    animation: none;
   }
 }
 

@@ -101,7 +101,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | building, project, projects, side, working on | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
 | quorum, raft, consensus, key-value, distributed | quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section. |
 | rush hour, café, cafe, robot, pathfinding, multi-agent, warehouse | Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them. |
-| trade simulator, simulator, level-2, market data, latency | The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency. |
+| trade simulator, level-2, market data, latency | The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency. |
 | fake news, classifier, nlp, tf-idf | Fake News Detection is a classifier built with TF-IDF and n-gram features and Random Forest / SVM models. It reached 86% accuracy using K-fold cross-validation. |
 | price prediction, house price, regression, mlflow, zenml | Price Prediction is an ML pipeline for house price prediction using regression and K-fold cross-validation, with experiment tracking and deployment automated through MLflow and CI/CD. |
 | quidd, finance, budget, budgeting, money, app | Quidd is a personal finance app she's building in React Native with Supabase. It uses a rule-based 'spendable-first' budgeting engine, so it shows what you can still safely spend, with deterministic logic instead of LLM calculations. |
@@ -157,7 +157,8 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Stage:** full width of the container (surface, border, radius 18, overflow hidden).
   - Desktop (≥900px): a two-column card. Preview on the left (~55%, full card height, min 380px, dot grid); details on the right (~45%, padding 32px): name + "In progress" badge, the "What I built" paragraph, tag chips, then buttons.
   - Below 900px: the preview stacks on top (260px) with the details under it.
-  - The stage height must not jump when switching projects (it keeps the height of the tallest project).
+  - Tablet and desktop (≥600px): the stage height must not jump when switching projects (it keeps the height of the tallest project).
+  - Phones (<600px): the card resizes to fit the selected project, so smaller projects don't leave empty space under their details.
 - **Buttons** (each only when it applies):
   - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
   - "Code" (outline): only when the project has a code link.

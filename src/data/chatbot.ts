@@ -57,7 +57,7 @@ export const qa: QA[] = [
       "Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them.",
   },
   {
-    keywords: ['trade simulator', 'simulator', 'level-2', 'market data', 'latency'],
+    keywords: ['trade simulator', 'level-2', 'market data', 'latency'],
     answer:
       'The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency.',
   },
