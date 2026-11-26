@@ -103,7 +103,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | stack, skill, language, tech, c++, python, java | Mostly C++, Python and Java, plus TypeScript and SQL. Tools: Linux, Docker, Kubernetes, AWS, WebSockets, REST, PostgreSQL. |
 | available, looking, hire, co-op, coop, job, open | Yes. She is looking for Summer 2027 internships and co-ops in software engineering. |
 | school, study, northeastern, degree, education, ucm, gpa | She is doing an MS in Computer Science at Northeastern (Khoury), 2026–2028. Before that, a B.S. in CS from the University of Central Missouri, Cum Laude. |
-| contact, email, reach, linkedin, github, resume | Email p.avigutti05@gmail.com, or find her on GitHub at github.com/PranaviGuttikonda. The resume is at the bottom of the page. |
+| contact, email, reach, linkedin, github, resume | Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page. |
 | where, location, based, boston, relocate | She is based in Boston, MA. |
 | hi, hello, hey | Hi! Ask me about her experience, projects, skills, or availability. |
 
@@ -149,18 +149,20 @@ The design and build plan for this site. Later phases refer back to this file.
 ## 02. Things I've built: project switcher (Preact island)
 
 - **Intro line:** "Pick a project to see what it does and how it's built. quorum runs live, so try crashing its leader."
-- **Layout:** two columns. Left = "stage" card (`flex: 999 1 600px`; surface, border, radius 18, overflow hidden). Right = project list (`flex: 1 1 300px`), 3 stacked buttons with a 10px gap.
-- **List buttons:** mono "01/02/03" label, project name (Space Grotesk 20px, 600), one-line description (14px, muted). Selected: accent border + `--surface-2` background; others: `--border` + `--surface`. Use proper tab semantics (`role=tablist`/`tab`/`tabpanel`, `aria-selected`, arrow keys move between tabs).
-- **Stage, top:** preview area 380px tall with the dot grid.
-- **Stage, bottom** (padding 26px 28px): project name (Space Grotesk 28px) + "In progress" badge, the "What I built" paragraph, tag chips, then buttons:
+- **Stage:** full width of the container (surface, border, radius 18, overflow hidden).
+  - Desktop (≥900px): a two-column card. Preview on the left (~55%, full card height, min 380px, dot grid); details on the right (~45%, padding 32px): name + "In progress" badge, the "What I built" paragraph, tag chips, then buttons.
+  - Below 900px: the preview stacks on top (260px) with the details under it.
+  - The stage height must not jump when switching projects (it keeps the height of the tallest project).
+- **Buttons** (each only when it applies):
   - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
-  - "Code" (outline).
-  - "Ask about this" (outline, chat icon): sends "Tell me about <project>" to the chatbot.
+  - "Code" (outline): only when the project has a code link.
+  - "Ask about this" (outline, chat icon): sends "Tell me about <project>" to the chatbot. Only for quorum, Rush Hour Café and Quidd, since the chatbot has no answers for the others.
+- **Project tabs, below the stage:** a grid of all 6 projects. 3 per row on desktop (`repeat(3, minmax(0, 1fr))`, gap 12px), 2 per row on tablet, and a horizontal scroll row of compact pills on phones (<600px). Each tab shows the mono number, the name (Space Grotesk 18px), and the one-liner (14px, muted; hidden on phone pills). Selected: accent border + `--surface-2`; others: `--border` + `--surface`.
+- **Tab semantics:** `role=tablist`/`tab`/`tabpanel`, `aria-selected`; arrow keys (left/right/up/down) move through the tabs in grid order; Home/End jump to the first/last.
 - **Switching projects:** quick crossfade (~200ms); no animation with `prefers-reduced-motion`.
-- **Mobile (<900px):** the list becomes a horizontal scroll row of compact tabs above the stage; the preview shrinks to 260px tall.
 - **Not shown in the switcher:** each project's Problem and Result. They stay below for the project's case-study page.
 
-The 3 projects, in this order:
+The 6 projects, in this order:
 
 **01. quorum** (In progress)
 - One-liner: "A replicated key-value store that keeps accepting writes while machines crash."
@@ -192,10 +194,22 @@ The 3 projects, in this order:
 - Code: https://github.com/PranaviGuttikonda/Quidd
 - No case-study page yet, so no "Read case study →" button.
 
-**Other projects:** small card grid under the label "OTHER PROJECTS". Each card has name, one line, and stack in mono.
-- **Real-Time Trade Simulator:** Level-2 market-data pipeline with latency profiling. (Python · WebSocket) **No code link; this one is confidential.**
-- **Fake News Detection:** TF-IDF + Random Forest / SVM classifier, 86% accuracy. (Python · scikit-learn)
-- **Price Prediction:** ML pipeline with MLflow tracking and CI/CD. (Python · ZenML · MLflow)
+**Smaller projects (04–06):** no badge, no "Ask about this". Preview: no illustration; a typographic panel with the project name in JetBrains Mono (~32px, `--text`) and its stack as chips under it, centered on the dot grid, same height as the other previews.
+
+**04. Real-Time Trade Simulator**
+- One-liner / What I built: Level-2 market-data pipeline with latency profiling.
+- Tags: Python · WebSocket
+- No code link; this one is confidential.
+
+**05. Fake News Detection**
+- One-liner / What I built: TF-IDF + Random Forest / SVM classifier, 86% accuracy.
+- Tags: Python · scikit-learn
+- Code: none yet.
+
+**06. Price Prediction**
+- One-liner / What I built: ML pipeline with MLflow tracking and CI/CD.
+- Tags: Python · ZenML · MLflow
+- Code: none yet.
 
 ## 03. Toolbox
 
@@ -211,7 +225,7 @@ Four cards, each with a mono accent label and chips:
 - Paragraph: "I'm looking for Summer 2027 internships and co-ops. Whether it's a role, a project or just a question, my inbox is open."
 - Buttons: "Say hi →" (accent, `mailto:p.avigutti05@gmail.com`) and "Download resume" (outline, `/resume.pdf`; I'll add the file to `public/`).
 - **Footer** (mono, small, muted): "Designed & built by Pranavi Guttikonda" on the left; email · GitHub on the right.
-- LinkedIn URL: [LINKEDIN URL]
+- LinkedIn URL: https://www.linkedin.com/in/pranaviguttikonda/
 
 ## /projects/quorum (Phase 6)
 

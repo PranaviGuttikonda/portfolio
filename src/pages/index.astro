@@ -5,8 +5,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import Experience from '../islands/Experience.tsx';
 import { jobs } from '../data/experience';
 import Projects from '../islands/Projects.tsx';
-import OtherProjects from '../components/OtherProjects.astro';
-import { featured } from '../data/projects';
+import { projects } from '../data/projects';
 ---
 
 <BaseLayout>
@@ -25,8 +24,7 @@ import { featured } from '../data/projects';
       leader.
     </p>
     <!-- client:idle for the same reason as Experience: ready before anyone scrolls here. -->
-    <Projects client:idle projects={featured} />
-    <OtherProjects />
+    <Projects client:idle projects={projects} />
   </section>
 
   <section id="skills" class="section container">

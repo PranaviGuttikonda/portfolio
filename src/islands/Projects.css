@@ -1,102 +1,73 @@
 /*
-  Given: stage on the left, project list on the right; the list comes first in the DOM.
-  Approach: flex row-reverse with the "sidebar" basis trick from the spec:
-  the stage (999 1 600px) takes the space, the list (1 1 300px) keeps ~300px.
+  Given: a full-width stage on top, a grid of six project tabs below.
+  Approach: stage = two-column card on desktop (preview ~55%, details ~45%),
+  stacked below 900px. Tabs: 3 per row ≥900px, 2 per row 600–899px,
+  a scrolling row of pills under 600px.
 */
 .proj {
-  display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 24px;
-}
-
-/* ---------- Project list ---------- */
-.proj__list {
-  flex: 1 1 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.proj__tab {
   display: grid;
-  gap: 4px;
-  padding: 18px 20px;
-  border-radius: var(--radius-card);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  text-align: left;
-  transition:
-    border-color 0.2s var(--ease),
-    background-color 0.2s var(--ease);
-}
-
-.proj__tab:hover {
-  border-color: var(--border-hover);
-}
-
-.proj__tab[aria-selected='true'] {
-  border-color: var(--accent);
-  background: var(--surface-2);
-}
-
-.proj__num {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent);
-}
-
-.proj__name {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-
-.proj__line {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--muted);
+  gap: 20px;
 }
 
 /* ---------- Stage ---------- */
 .proj__stage {
-  flex: 999 1 600px;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-panel);
   overflow: hidden;
 }
 
-/* Given: switching projects should feel like a quick crossfade.
-   Approach: the stage content is keyed, so each new project mounts and fades in. */
-.proj__fade {
-  animation: proj-fade 0.2s var(--ease);
+/* Every project is rendered; layers share one grid cell so the stage keeps the
+   height of the tallest project and never jumps. */
+.proj__previews,
+.proj__details {
+  display: grid;
 }
 
-@keyframes proj-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.proj__layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  /* Fade out, then hide (so hidden layers leave the tab order). */
+  transition:
+    opacity 0.2s var(--ease),
+    visibility 0s linear 0.2s;
 }
 
-.proj__preview {
-  position: relative;
-  height: 380px;
-  border-bottom: 1px solid var(--border);
+.proj__layer.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.2s var(--ease),
+    visibility 0s;
+}
+
+.proj__previews {
+  min-height: 380px;
+  border-right: 1px solid var(--border);
   background-color: var(--bg);
 }
 
-.proj__body {
-  padding: 26px 28px;
+.proj__previews .proj__layer {
+  position: relative;
+}
+
+/* Previews fill their layer but never size it: the stage height comes from the
+   380px minimum and the details column, not from a preview's own aspect ratio. */
+:where(.proj__previews .proj__layer) > * {
+  position: absolute;
+  inset: 0;
+}
+
+.proj__details {
+  padding: 32px;
+}
+
+.proj__details .proj__layer {
+  align-self: center;
 }
 
 .proj__title-row {
@@ -123,7 +94,6 @@
 }
 
 .proj__built {
-  max-width: 640px;
   margin-top: 12px;
   font-size: 16px;
   color: var(--text-2);
@@ -156,20 +126,92 @@
   height: 16px;
 }
 
-/* ---------- Mobile: compact tabs in a scroll row above the stage ---------- */
+/* ---------- Tabs ---------- */
+.proj__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.proj__tab {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  transition:
+    border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease);
+}
+
+.proj__tab:hover {
+  border-color: var(--border-hover);
+}
+
+.proj__tab[aria-selected='true'] {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.proj__num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.proj__name {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.proj__line {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Tablet / phone: preview stacks on top ---------- */
 @media (max-width: 899px) {
-  .proj {
-    flex-direction: column;
-    /* nowrap: a wrapping column sizes its line to the widest item (the scroll row),
-       which would push the stage past the screen edge. */
-    flex-wrap: nowrap;
-    align-items: stretch;
-    gap: 16px;
+  .proj__stage {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .proj__list {
-    flex: none;
-    flex-direction: row;
+  .proj__previews {
+    min-height: 0;
+    height: 260px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .proj__details {
+    padding: 22px 20px;
+  }
+
+  .proj__details .proj__layer {
+    align-self: start;
+  }
+
+  .proj__title {
+    font-size: 24px;
+  }
+
+  .proj__tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Phone: tabs become a scrolling row of pills ---------- */
+@media (max-width: 599px) {
+  .proj__tabs {
+    display: flex;
     gap: 8px;
     overflow-x: auto;
     scrollbar-width: none;
@@ -177,13 +219,13 @@
     padding: 2px var(--gutter);
   }
 
-  .proj__list::-webkit-scrollbar {
+  .proj__tabs::-webkit-scrollbar {
     display: none;
   }
 
   .proj__tab {
     flex: none;
-    display: flex;
+    flex-direction: row;
     align-items: baseline;
     gap: 8px;
     padding: 10px 16px;
@@ -198,27 +240,12 @@
   .proj__line {
     display: none;
   }
-
-  .proj__stage {
-    flex: none;
-  }
-
-  .proj__preview {
-    height: 260px;
-  }
-
-  .proj__body {
-    padding: 22px 20px;
-  }
-
-  .proj__title {
-    font-size: 24px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .proj__fade {
-    animation: none;
+  .proj__layer,
+  .proj__layer.is-active {
+    transition: none;
   }
 }
 
@@ -546,4 +573,37 @@
     font-size: 11px;
     white-space: nowrap;
   }
+}
+
+/* ---------- Smaller projects: name + stack, no illustration ---------- */
+.textprev {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+}
+
+.textprev__name {
+  font-family: var(--font-mono);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.textprev__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.textprev__tags .chip {
+  background: var(--surface);
 }
