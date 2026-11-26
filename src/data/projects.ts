@@ -1,9 +1,10 @@
 // Given: the "Things I've built" switcher, six projects in display order.
 // Approach: one list drives both the tabs and the stage. Problem/Result are kept for
 //   case-study pages and aren't shown in the switcher. Optional fields decide which
-//   buttons appear: no `code` → no Code button, no `caseStudy` → no Read case study.
+//   buttons appear: no `code` → no Code button, no `caseStudy` → no Read case study,
+//   no `live` → no Play it live.
 
-export type PreviewKind = 'raft' | 'cafe' | 'quidd' | 'text';
+export type PreviewKind = 'raft' | 'cafe-video' | 'quidd' | 'text';
 
 export interface Project {
   id: string;
@@ -11,11 +12,13 @@ export interface Project {
   name: string;
   oneLiner: string;
   built: string;
+  highlight?: string; // one mono line under What I built
   tags: string[];
   preview: PreviewKind; // 'text' = name + stack on the dot grid, no illustration
   inProgress?: boolean;
   code?: string;
   caseStudy?: string; // only projects with a case-study page get "Read case study →"
+  live?: string; // playable demo → "Play it live →"
   problem?: string;
   result?: string;
 }
@@ -43,14 +46,18 @@ export const projects: Project[] = [
     name: 'Rush Hour Café',
     oneLiner: 'Robot waiters that plan collision-free routes around a café you lay out.',
     built:
-      'A multi-agent pathfinding engine in C++ with a playable front end: place tables, then watch robots plan.',
-    tags: ['C++', 'Multi-agent pathfinding', 'Simulation'],
-    preview: 'cafe',
+      'A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A*, and conflict-based search) and a raylib viewer compiled to WebAssembly. Two cafés run side by side so you can watch each planner handle the lunch rush.',
+    highlight:
+      'At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).',
+    tags: ['C++20', 'Multi-agent pathfinding', 'CBS', 'WebAssembly', 'raylib'],
+    preview: 'cafe-video',
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/warehouse-world',
+    live: 'https://pranaviguttikonda.github.io/warehouse-world/',
     problem:
       'Many robots sharing one floor have to reach their tables without colliding or deadlocking.',
-    result: '[N] robots · [ms] planning time',
+    result:
+      'At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).',
   },
   {
     id: 'quidd',

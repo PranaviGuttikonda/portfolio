@@ -99,6 +99,14 @@
   color: var(--text-2);
 }
 
+.proj__highlight {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
 .proj__tags {
   display: flex;
   flex-wrap: wrap;
@@ -420,45 +428,33 @@
   fill: var(--text);
 }
 
-/* ---------- Rush Hour Café: static floor grid ---------- */
-.cafe {
-  position: absolute;
-  inset: 24px;
-  width: calc(100% - 48px);
-  height: calc(100% - 48px);
+/* ---------- Rush Hour Café: recording ---------- */
+/* Given: a wide (1192×408) recording in a preview area whose shape changes with the
+   layout (wide on desktop, short on tablet).
+   Approach: the area is a size container; the frame takes whichever is smaller,
+   the full width or the width that fits the height (26px = padding + border). */
+.cafevid {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  container-type: size;
 }
 
-.cafe__floor {
-  fill: var(--surface);
-  stroke: var(--border-strong);
-  stroke-width: 0.4;
+.cafevid__frame {
+  width: min(100cqw, calc((100cqh - 26px) * 1192 / 408 + 26px));
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
 }
 
-.cafe__line {
-  stroke: var(--border);
-  stroke-width: 0.3;
-}
-
-.cafe__table {
-  fill: #fdba74;
-}
-
-.cafe__path {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 0.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 0.1 2.2;
-}
-
-.cafe__robot {
-  fill: var(--accent);
-}
-
-.cafe__glow {
-  flood-color: var(--accent);
-  flood-opacity: 0.8;
+.cafevid__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1192 / 408;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 /* ---------- Quidd: phone frame ---------- */
@@ -560,6 +556,10 @@
 }
 
 @media (max-width: 899px) {
+  .cafevid {
+    padding: 14px;
+  }
+
   .quidd {
     font-size: 10.5px;
   }
