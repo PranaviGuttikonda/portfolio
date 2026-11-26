@@ -1,0 +1,301 @@
+---
+import { navLinks } from '../data/site';
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="/" class="nav__logo" aria-label="pranavi.g, home">
+      pranavi<span class="nav__dot">.</span>g
+    </a>
+
+    <nav class="nav__links" id="nav-links" aria-label="Main">
+      <ul>
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="nav__link">
+                <span class="nav__num">{link.num}</span> {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="nav__actions">
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Switch color theme">
+        <!-- Sun shows in dark mode, moon in light mode; CSS picks which so there is no flash. -->
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Command palette opens from here in a later phase. -->
+      <button type="button" class="nav__jump" data-command-palette>
+        Jump to… <kbd>⌘K</kbd>
+      </button>
+
+      <button
+        type="button"
+        class="icon-btn nav__menu-btn"
+        data-menu-toggle
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >
+        <svg class="nav__menu-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        <svg class="nav__menu-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Given: the theme is already set on <html> by the inline head script.
+  // Approach: the toggle flips it, saves the choice, and keeps the button label in sync.
+  //   Until the visitor picks one, OS theme changes are followed live.
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const osLight = window.matchMedia('(prefers-color-scheme: light)');
+
+  const currentTheme = () => (root.dataset.theme === 'light' ? 'light' : 'dark');
+
+  const syncLabel = () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    toggle?.setAttribute('aria-label', `Switch to ${next} theme`);
+  };
+
+  const hasSavedChoice = () => {
+    try {
+      return localStorage.getItem('theme') !== null;
+    } catch {
+      return false;
+    }
+  };
+
+  toggle?.addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      // Storage blocked (private mode etc.): the theme still changes for this visit.
+    }
+    syncLabel();
+  });
+
+  osLight.addEventListener('change', (e) => {
+    if (hasSavedChoice()) return;
+    root.dataset.theme = e.matches ? 'light' : 'dark';
+    syncLabel();
+  });
+
+  syncLabel();
+
+  // Given: on small screens the links collapse behind a menu button.
+  // Approach: toggle a class + aria-expanded; close on link click, Escape, or resize to desktop.
+  const nav = document.querySelector<HTMLElement>('.nav');
+  const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const links = document.getElementById('nav-links');
+
+  const setMenu = (open: boolean) => {
+    nav?.classList.toggle('is-open', open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+    menuBtn?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+
+  menuBtn?.addEventListener('click', () => setMenu(!nav?.classList.contains('is-open')));
+
+  links?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setMenu(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+      setMenu(false);
+      menuBtn?.focus();
+    }
+  });
+
+  window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false);
+  });
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: var(--nav-height);
+  }
+
+  .nav__logo {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-right: auto;
+  }
+
+  .nav__dot {
+    color: var(--accent);
+  }
+
+  .nav__links ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav__link {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text-2);
+    transition: color 0.2s var(--ease);
+  }
+
+  .nav__link:hover {
+    color: var(--accent);
+  }
+
+  .nav__num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Theme icon: sun in dark mode, moon in light mode */
+  .theme-toggle__moon {
+    display: none;
+  }
+
+  :global([data-theme='light']) .theme-toggle__sun {
+    display: none;
+  }
+
+  :global([data-theme='light']) .theme-toggle__moon {
+    display: block;
+  }
+
+  .nav__jump {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 8px 0 14px;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+    transition:
+      border-color 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+
+  .nav__jump:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+  }
+
+  .nav__jump kbd {
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-2);
+  }
+
+  .nav__menu-btn,
+  .nav__menu-close {
+    display: none;
+  }
+
+  /* ---------- Mobile / tablet: links collapse into a menu ---------- */
+  @media (max-width: 899px) {
+    .nav__menu-btn {
+      display: inline-grid;
+    }
+
+    .nav__jump {
+      display: none;
+    }
+
+    .nav__links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      box-shadow: 0 20px 40px -20px var(--shadow);
+    }
+
+    .nav.is-open .nav__links {
+      display: block;
+    }
+
+    .nav.is-open .nav__menu-open {
+      display: none;
+    }
+
+    .nav.is-open .nav__menu-close {
+      display: block;
+    }
+
+    .nav__links ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      max-width: calc(var(--max-width) + var(--gutter) * 2);
+      margin-inline: auto;
+      padding: 8px var(--gutter) 16px;
+    }
+
+    .nav__link {
+      display: block;
+      padding: 14px 4px;
+      font-size: 16px;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+    }
+
+    .nav__links li:last-child .nav__link {
+      border-bottom: 0;
+    }
+  }
+</style>

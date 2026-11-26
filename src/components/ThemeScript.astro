@@ -1,0 +1,22 @@
+---
+// Given: the theme must be set before first paint, or the page flashes the wrong colors.
+// Approach: a tiny blocking inline script in <head> picks the theme and sets data-theme on <html>.
+//   1. a choice saved in localStorage wins
+//   2. otherwise follow the OS (prefers-color-scheme)
+//   3. otherwise dark
+---
+<script is:inline>
+  (function () {
+    var saved = null;
+    try {
+      saved = localStorage.getItem('theme');
+    } catch (e) {}
+    var theme =
+      saved === 'light' || saved === 'dark'
+        ? saved
+        : window.matchMedia('(prefers-color-scheme: light)').matches
+          ? 'light'
+          : 'dark';
+    document.documentElement.dataset.theme = theme;
+  })();
+</script>
