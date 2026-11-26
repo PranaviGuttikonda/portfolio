@@ -24,8 +24,6 @@
   --success: #4ade80;
   --warn: #fcd34d;
   --warn-border: #5b4a1a;
-  --ask: #f87171;
-  --bid: #4ade80;
   --shadow: rgba(0, 0, 0, 0.45);
 }
 
@@ -48,8 +46,6 @@
   --success: #4ade80;
   --warn: #92400e;
   --warn-border: #f3d9a4;
-  --ask: #b91c1c;
-  --bid: #15803d;
   --shadow: rgba(20, 22, 26, 0.12);
 }
 
