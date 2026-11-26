@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import Experience from '../islands/Experience.tsx';
+import { jobs } from '../data/experience';
 ---
 
 <BaseLayout>
@@ -9,6 +11,8 @@ import SectionHeading from '../components/SectionHeading.astro';
 
   <section id="experience" class="section container">
     <SectionHeading num="01." title="Where I've worked" />
+    <!-- client:idle, not :visible: hydrated before anyone scrolls here, so early clicks work. -->
+    <Experience client:idle jobs={jobs} />
   </section>
 
   <section id="projects" class="section container">

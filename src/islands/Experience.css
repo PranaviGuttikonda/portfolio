@@ -1,0 +1,158 @@
+.exp {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+/* ---------- Tab list ---------- */
+.exp__tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp__tab {
+  padding: 14px 18px;
+  border: 0;
+  border-left: 2px solid var(--border-strong);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-align: left;
+  white-space: nowrap;
+  transition:
+    color 0.2s var(--ease),
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.exp__tab:hover {
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.exp__tab[aria-selected='true'] {
+  border-left-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.exp__tab:focus-visible {
+  outline-offset: -2px;
+  border-radius: 0;
+}
+
+/* ---------- Detail card ---------- */
+.exp__panel {
+  padding: 28px 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.exp__panel:focus-visible {
+  border-radius: var(--radius-card);
+}
+
+.exp__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 20px;
+}
+
+.exp__role {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.exp__company {
+  color: var(--accent);
+}
+
+.exp__dates {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.exp__location {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.exp__bullets {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.exp__bullets li {
+  position: relative;
+  padding-left: 24px;
+  color: var(--text-2);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.exp__bullets li::before {
+  content: '▹';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.exp__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Mobile: tabs become a horizontal scroll row ---------- */
+@media (max-width: 767px) {
+  .exp {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .exp__tabs {
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Let the row bleed to the screen edge so it reads as scrollable. */
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+
+  .exp__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .exp__tab {
+    flex: none;
+    border-left: 0;
+    border-bottom: 2px solid var(--border-strong);
+  }
+
+  .exp__tab[aria-selected='true'] {
+    border-bottom-color: var(--accent);
+  }
+
+  .exp__panel {
+    padding: 22px 20px;
+  }
+
+  .exp__role {
+    font-size: 19px;
+  }
+}
