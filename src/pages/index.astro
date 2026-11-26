@@ -4,6 +4,9 @@ import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Experience from '../islands/Experience.tsx';
 import { jobs } from '../data/experience';
+import Projects from '../islands/Projects.tsx';
+import OtherProjects from '../components/OtherProjects.astro';
+import { featured } from '../data/projects';
 ---
 
 <BaseLayout>
@@ -17,6 +20,13 @@ import { jobs } from '../data/experience';
 
   <section id="projects" class="section container">
     <SectionHeading num="02." title="Things I've built" />
+    <p class="section-intro">
+      Pick a project to see what it does and how it's built. quorum runs live, so try crashing its
+      leader.
+    </p>
+    <!-- client:idle for the same reason as Experience: ready before anyone scrolls here. -->
+    <Projects client:idle projects={featured} />
+    <OtherProjects />
   </section>
 
   <section id="skills" class="section container">
@@ -29,5 +39,12 @@ import { jobs } from '../data/experience';
 <style>
   .section {
     min-height: 40vh;
+  }
+
+  .section-intro {
+    max-width: 640px;
+    margin: -16px 0 32px;
+    font-size: 17px;
+    color: var(--muted);
   }
 </style>
