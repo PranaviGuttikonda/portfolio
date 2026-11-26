@@ -32,17 +32,17 @@
 :root[data-theme='light'] {
   color-scheme: light;
 
-  --bg: #f7f6f2;
-  --surface: #ffffff;
-  --surface-2: #eef0f5;
-  --surface-3: #ffffff;
-  --border: #e4e2dc;
-  --border-strong: #d3d1ca;
-  --border-hover: #b9b7b0;
+  --bg: #edebe5;
+  --surface: #f7f6f2;
+  --surface-2: #e4e2db;
+  --surface-3: #f7f6f2;
+  --border: #dad7cf;
+  --border-strong: #cbc8bf;
+  --border-hover: #b4b1a8;
   --text: #14161a;
   --text-2: #33373f;
   --muted: #565b68;
-  --dot: #e2e0d9;
+  --dot: #d9d6ce;
   --accent: #2448f5;
   --on-accent: #ffffff;
   --success: #4ade80;

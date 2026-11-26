@@ -30,17 +30,17 @@ The design and build plan for this site. Later phases refer back to this file.
 
 | Token | Dark: "Midnight Periwinkle" (default) | Light: "Paper & Cobalt" |
 |---|---|---|
-| `--bg` | `#0B1220` | `#F7F6F2` |
-| `--surface` | `#111A2E` | `#FFFFFF` |
-| `--surface-2` (chat bot bubble) | `#16203A` | `#EEF0F5` |
-| `--surface-3` (chat panel) | `#0E1626` | `#FFFFFF` |
-| `--border` | `#1E2940` | `#E4E2DC` |
-| `--border-strong` | `#2A3752` | `#D3D1CA` |
-| `--border-hover` | `#3A4A70` | `#B9B7B0` |
+| `--bg` | `#0B1220` | `#EDEBE5` |
+| `--surface` | `#111A2E` | `#F7F6F2` |
+| `--surface-2` (chat bot bubble) | `#16203A` | `#E4E2DB` |
+| `--surface-3` (chat panel) | `#0E1626` | `#F7F6F2` |
+| `--border` | `#1E2940` | `#DAD7CF` |
+| `--border-strong` | `#2A3752` | `#CBC8BF` |
+| `--border-hover` | `#3A4A70` | `#B4B1A8` |
 | `--text` | `#E6EAF2` | `#14161A` |
 | `--text-2` | `#C3CAD8` | `#33373F` |
 | `--muted` | `#A3ADC2` | `#565B68` |
-| `--dot` (background dot grid) | `#1C2740` | `#E2E0D9` |
+| `--dot` (background dot grid) | `#1C2740` | `#D9D6CE` |
 | `--accent` | `#8FA2FF` | `#2448F5` |
 | `--on-accent` (text on accent buttons) | `#0B1220` | `#FFFFFF` |
 | `--success` (status dots) | `#4ADE80` | `#4ADE80` |
@@ -65,7 +65,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Two-column layout** (stacks on mobile):
   - **Left column:**
     - Pill badge: pulsing green dot + "Open to Summer 2027 internships & co-ops".
-    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent.
+    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (inline-block, ~0.08em wide × 0.85em tall, sitting on the baseline, ~0.12em gap after the period), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
     - Paragraph (19px, muted): "Software engineer in Boston. I spent the last year and a half building exchange integrations and debugging trading systems at **GoQuant**. Now I'm doing my MS in CS at **Northeastern**, and building things on the side." (bold words in `--text`)
     - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline), then GitHub and LinkedIn icon buttons (50×50, outline).
   - **Right column:** the chatbot (next section).

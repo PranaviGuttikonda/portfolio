@@ -7,7 +7,11 @@ import SectionHeading from '../components/SectionHeading.astro';
   <!-- Hero and chat land in Phase 2. -->
   <section class="hero dot-grid">
     <div class="container">
-      <h1>hi, I'm <span class="accent">Pranavi</span>.</h1>
+      <h1>
+        hi, I'm <span class="nowrap"><span class="accent">Pranavi</span>.<span
+            class="cursor"
+            aria-hidden="true"></span></span>
+      </h1>
     </div>
   </section>
 
@@ -38,6 +42,37 @@ import SectionHeading from '../components/SectionHeading.astro';
 
   .accent {
     color: var(--accent);
+  }
+
+  /* Given: "Pranavi." and the cursor must never split across lines.
+     Approach: wrap them together in a no-wrap span. */
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  /* Given: a terminal-style cursor after the name.
+     Approach: an empty inline-block bar; its bottom edge sits on the text baseline.
+     steps(1) makes the blink a hard on/off, 0.5s each. */
+  .cursor {
+    display: inline-block;
+    width: 0.08em;
+    height: 0.85em;
+    margin-left: 0.12em;
+    vertical-align: baseline;
+    background: var(--accent);
+    animation: cursor-blink 1s steps(1) infinite;
+  }
+
+  @keyframes cursor-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      animation: none;
+    }
   }
 
   .section {
