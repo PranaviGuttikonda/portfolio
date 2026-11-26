@@ -8,7 +8,7 @@ export const site = {
     'Software engineer in Boston. MS in CS at Northeastern. Backend, distributed systems and C++.',
   email: 'p.avigutti05@gmail.com',
   github: 'https://github.com/PranaviGuttikonda',
-  linkedin: '[LINKEDIN URL]',
+  linkedin: 'https://www.linkedin.com/in/pranaviguttikonda/',
   resume: '/resume.pdf',
 } as const;
 

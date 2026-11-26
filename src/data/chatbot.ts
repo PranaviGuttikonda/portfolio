@@ -69,7 +69,7 @@ export const qa: QA[] = [
   {
     keywords: ['contact', 'email', 'reach', 'linkedin', 'github', 'resume'],
     answer:
-      'Email p.avigutti05@gmail.com, or find her on GitHub at github.com/PranaviGuttikonda. The resume is at the bottom of the page.',
+      'Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page.',
   },
   {
     keywords: ['where', 'location', 'based', 'boston', 'relocate'],
