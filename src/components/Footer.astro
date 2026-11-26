@@ -1,0 +1,53 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>Designed &amp; built by {site.name}</p>
+    <p class="footer__links">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <span aria-hidden="true">·</span>
+      <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding-block: 28px;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .footer a {
+    transition: color 0.2s var(--ease);
+  }
+
+  .footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 599px) {
+    .footer__inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

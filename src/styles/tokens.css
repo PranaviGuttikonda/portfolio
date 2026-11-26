@@ -1,0 +1,71 @@
+/*
+  Given: two themes from the spec, "Midnight Periwinkle" (dark, default) and "Paper & Cobalt" (light).
+  Approach: every color is a custom property; the theme is picked by data-theme on <html>.
+  :root alone falls back to dark, so the page is dark even if the theme script never runs.
+*/
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0b1220;
+  --surface: #111a2e;
+  --surface-2: #16203a;
+  --surface-3: #0e1626;
+  --border: #1e2940;
+  --border-strong: #2a3752;
+  --border-hover: #3a4a70;
+  --text: #e6eaf2;
+  --text-2: #c3cad8;
+  --muted: #a3adc2;
+  --dot: #1c2740;
+  --accent: #8fa2ff;
+  --on-accent: #0b1220;
+  --success: #4ade80;
+  --warn: #fcd34d;
+  --warn-border: #5b4a1a;
+  --ask: #f87171;
+  --bid: #4ade80;
+  --shadow: rgba(0, 0, 0, 0.45);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface-2: #eef0f5;
+  --surface-3: #ffffff;
+  --border: #e4e2dc;
+  --border-strong: #d3d1ca;
+  --border-hover: #b9b7b0;
+  --text: #14161a;
+  --text-2: #33373f;
+  --muted: #565b68;
+  --dot: #e2e0d9;
+  --accent: #2448f5;
+  --on-accent: #ffffff;
+  --success: #4ade80;
+  --warn: #92400e;
+  --warn-border: #f3d9a4;
+  --ask: #b91c1c;
+  --bid: #15803d;
+  --shadow: rgba(20, 22, 26, 0.12);
+}
+
+/* Theme-independent tokens */
+:root {
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --max-width: 1160px;
+  --gutter: 24px;
+  --nav-height: 68px;
+
+  --radius-card: 16px;
+  --radius-panel: 18px;
+  --radius-btn: 10px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
