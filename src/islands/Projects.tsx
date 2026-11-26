@@ -96,39 +96,35 @@ export default function Projects({ projects }: Props) {
                 ))}
               </ul>
 
-              {(p.caseStudy || p.code || p.ask) && (
-                <div class="proj__actions">
-                  {p.caseStudy && (
-                    <a href={p.caseStudy} class="btn btn--accent">
-                      Read case study →
-                    </a>
-                  )}
-                  {p.code && (
-                    <a
-                      href={p.code}
-                      class="btn btn--outline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Code for ${p.name} on GitHub`}
-                    >
-                      Code
-                    </a>
-                  )}
-                  {p.ask && (
-                    <button
-                      type="button"
-                      class="btn btn--outline"
-                      aria-label={`Ask about this: ${p.name}`}
-                      onClick={() => askPranavi(p.ask!)}
-                    >
-                      <svg class="proj__chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12Z" />
-                      </svg>
-                      Ask about this
-                    </button>
-                  )}
-                </div>
-              )}
+              <div class="proj__actions">
+                {p.caseStudy && (
+                  <a href={p.caseStudy} class="btn btn--accent">
+                    Read case study →
+                  </a>
+                )}
+                {p.code && (
+                  <a
+                    href={p.code}
+                    class="btn btn--outline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Code for ${p.name} on GitHub`}
+                  >
+                    Code
+                  </a>
+                )}
+                <button
+                  type="button"
+                  class="btn btn--outline"
+                  aria-label={`Ask about this: ${p.name}`}
+                  onClick={() => askPranavi(`Tell me about ${p.name}`)}
+                >
+                  <svg class="proj__chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12Z" />
+                  </svg>
+                  Ask about this
+                </button>
+              </div>
             </div>
           ))}
         </div>

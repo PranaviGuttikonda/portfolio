@@ -98,7 +98,12 @@ The design and build plan for this site. Later phases refer back to this file.
 | goquant, quant, trading, exchange, last job, previous job | At GoQuant (May 2025 – Sep 2026) she was a Quantitative/Backend Developer. She built trading integrations across 15+ crypto exchanges (auth, request signing, rate limiting, resilient WebSocket sessions), supported 8+ client deployments, and documented 100+ defects. |
 | deepedge, edge ai | At DeepEdge (Mar – May 2025) she built C++ and Python backend infrastructure for a low/no-code Edge AI platform and led a legacy data migration. |
 | isaksai, nysdot, dmv, intern | At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System. |
-| building, project, quorum, raft, cafe, café, side | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
+| building, project, projects, side, working on | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
+| quorum, raft, consensus, key-value, distributed | quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section. |
+| rush hour, café, cafe, robot, pathfinding, multi-agent, warehouse | Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them. |
+| trade simulator, simulator, level-2, market data, latency | The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency. |
+| fake news, classifier, nlp, tf-idf | Fake News Detection is a classifier built with TF-IDF and n-gram features and Random Forest / SVM models. It reached 86% accuracy using K-fold cross-validation. |
+| price prediction, house price, regression, mlflow, zenml | Price Prediction is an ML pipeline for house price prediction using regression and K-fold cross-validation, with experiment tracking and deployment automated through MLflow and CI/CD. |
 | quidd, finance, budget, budgeting, money, app | Quidd is a personal finance app she's building in React Native with Supabase. It uses a rule-based 'spendable-first' budgeting engine, so it shows what you can still safely spend, with deterministic logic instead of LLM calculations. |
 | stack, skill, language, tech, c++, python, java | Mostly C++, Python and Java, plus TypeScript and SQL. Tools: Linux, Docker, Kubernetes, AWS, WebSockets, REST, PostgreSQL. |
 | available, looking, hire, co-op, coop, job, open | Yes. She is looking for Summer 2027 internships and co-ops in software engineering. |
@@ -156,7 +161,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Buttons** (each only when it applies):
   - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
   - "Code" (outline): only when the project has a code link.
-  - "Ask about this" (outline, chat icon): sends "Tell me about <project>" to the chatbot. Only for quorum, Rush Hour Café and Quidd, since the chatbot has no answers for the others.
+  - "Ask about this" (outline, chat icon): sends "Tell me about <project name>" to the chatbot. Shown for all 6 projects; each has its own chatbot answer.
 - **Project tabs, below the stage:** a grid of all 6 projects. 3 per row on desktop (`repeat(3, minmax(0, 1fr))`, gap 12px), 2 per row on tablet, and a horizontal scroll row of compact pills on phones (<600px). Each tab shows the mono number, the name (Space Grotesk 18px), and the one-liner (14px, muted; hidden on phone pills). Selected: accent border + `--surface-2`; others: `--border` + `--surface`.
 - **Tab semantics:** `role=tablist`/`tab`/`tabpanel`, `aria-selected`; arrow keys (left/right/up/down) move through the tabs in grid order; Home/End jump to the first/last.
 - **Switching projects:** quick crossfade (~200ms); no animation with `prefers-reduced-motion`.
@@ -194,7 +199,7 @@ The 6 projects, in this order:
 - Code: https://github.com/PranaviGuttikonda/Quidd
 - No case-study page yet, so no "Read case study →" button.
 
-**Smaller projects (04–06):** no badge, no "Ask about this". Preview: no illustration; a typographic panel with the project name in JetBrains Mono (~32px, `--text`) and its stack as chips under it, centered on the dot grid, same height as the other previews.
+**Smaller projects (04–06):** no badge. Preview: no illustration; a typographic panel with the project name in JetBrains Mono (~32px, `--text`) and its stack as chips under it, centered on the dot grid, same height as the other previews.
 
 **04. Real-Time Trade Simulator**
 - One-liner / What I built: Level-2 market-data pipeline with latency profiling.

@@ -1,7 +1,7 @@
 // Given: the "Things I've built" switcher, six projects in display order.
 // Approach: one list drives both the tabs and the stage. Problem/Result are kept for
 //   case-study pages and aren't shown in the switcher. Optional fields decide which
-//   buttons appear: no `code` → no Code button, no `ask` → no Ask about this.
+//   buttons appear: no `code` → no Code button, no `caseStudy` → no Read case study.
 
 export type PreviewKind = 'raft' | 'cafe' | 'quidd' | 'text';
 
@@ -16,7 +16,6 @@ export interface Project {
   inProgress?: boolean;
   code?: string;
   caseStudy?: string; // only projects with a case-study page get "Read case study →"
-  ask?: string; // question sent to the chat by "Ask about this"
   problem?: string;
   result?: string;
 }
@@ -34,7 +33,6 @@ export const projects: Project[] = [
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/quorum',
     caseStudy: '/projects/quorum',
-    ask: 'Tell me about quorum',
     problem:
       'Storage spread across machines has to agree on every write, even when a machine dies mid-request.',
     result: '[FAILOVER TIME] · [N] simulated runs',
@@ -50,7 +48,6 @@ export const projects: Project[] = [
     preview: 'cafe',
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/warehouse-world',
-    ask: 'Tell me about Rush Hour Café',
     problem:
       'Many robots sharing one floor have to reach their tables without colliding or deadlocking.',
     result: '[N] robots · [ms] planning time',
@@ -66,7 +63,6 @@ export const projects: Project[] = [
     preview: 'quidd',
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/Quidd',
-    ask: 'Tell me about Quidd',
     problem:
       "Most budgeting apps tell you what you've already spent, not what you can still safely spend.",
     result: '[RESULT]',
