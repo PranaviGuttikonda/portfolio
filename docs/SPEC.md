@@ -65,7 +65,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Two-column layout** (stacks on mobile):
   - **Left column:**
     - Pill badge: pulsing green dot + "Open to Summer 2027 internships & co-ops".
-    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent.
+    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (inline-block, ~0.08em wide × 0.85em tall, sitting on the baseline, ~0.12em gap after the period), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
     - Paragraph (19px, muted): "Software engineer in Boston. I spent the last year and a half building exchange integrations and debugging trading systems at **GoQuant**. Now I'm doing my MS in CS at **Northeastern**, and building things on the side." (bold words in `--text`)
     - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline), then GitHub and LinkedIn icon buttons (50×50, outline).
   - **Right column:** the chatbot (next section).
