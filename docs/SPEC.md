@@ -30,17 +30,17 @@ The design and build plan for this site. Later phases refer back to this file.
 
 | Token | Dark: "Midnight Periwinkle" (default) | Light: "Paper & Cobalt" |
 |---|---|---|
-| `--bg` | `#0B1220` | `#F7F6F2` |
-| `--surface` | `#111A2E` | `#FFFFFF` |
-| `--surface-2` (chat bot bubble) | `#16203A` | `#EEF0F5` |
-| `--surface-3` (chat panel) | `#0E1626` | `#FFFFFF` |
-| `--border` | `#1E2940` | `#E4E2DC` |
-| `--border-strong` | `#2A3752` | `#D3D1CA` |
-| `--border-hover` | `#3A4A70` | `#B9B7B0` |
+| `--bg` | `#0B1220` | `#EDEBE5` |
+| `--surface` | `#111A2E` | `#F7F6F2` |
+| `--surface-2` (chat bot bubble) | `#16203A` | `#E4E2DB` |
+| `--surface-3` (chat panel) | `#0E1626` | `#F7F6F2` |
+| `--border` | `#1E2940` | `#DAD7CF` |
+| `--border-strong` | `#2A3752` | `#CBC8BF` |
+| `--border-hover` | `#3A4A70` | `#B4B1A8` |
 | `--text` | `#E6EAF2` | `#14161A` |
 | `--text-2` | `#C3CAD8` | `#33373F` |
 | `--muted` | `#A3ADC2` | `#565B68` |
-| `--dot` (background dot grid) | `#1C2740` | `#E2E0D9` |
+| `--dot` (background dot grid) | `#1C2740` | `#D9D6CE` |
 | `--accent` | `#8FA2FF` | `#2448F5` |
 | `--on-accent` (text on accent buttons) | `#0B1220` | `#FFFFFF` |
 | `--success` (status dots) | `#4ADE80` | `#4ADE80` |
