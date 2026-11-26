@@ -6,6 +6,8 @@ import Experience from '../islands/Experience.tsx';
 import { jobs } from '../data/experience';
 import Projects from '../islands/Projects.tsx';
 import { projects } from '../data/projects';
+import Toolbox from '../components/Toolbox.astro';
+import Contact from '../components/Contact.astro';
 ---
 
 <BaseLayout>
@@ -29,16 +31,15 @@ import { projects } from '../data/projects';
 
   <section id="skills" class="section container">
     <SectionHeading num="03." title="Toolbox" />
+    <Toolbox />
   </section>
 
-  <section id="contact" class="section container"></section>
+  <section id="contact" class="section container" aria-labelledby="contact-title">
+    <Contact />
+  </section>
 </BaseLayout>
 
 <style>
-  .section {
-    min-height: 40vh;
-  }
-
   .section-intro {
     max-width: 640px;
     margin: -16px 0 32px;

@@ -1,0 +1,50 @@
+---
+import { site } from '../data/site';
+---
+
+<div class="contact">
+  <p class="contact__kicker">04. What's next?</p>
+  <h2 id="contact-title" class="contact__title">Let's talk.</h2>
+  <p class="contact__text">
+    I'm looking for Summer 2027 internships and co-ops. Whether it's a role, a project or just a
+    question, my inbox is open.
+  </p>
+  <div class="contact__actions">
+    <a href={`mailto:${site.email}`} class="btn btn--accent">Say hi →</a>
+    <a href={site.resume} class="btn btn--outline" download>Download resume</a>
+  </div>
+</div>
+
+<style>
+  .contact {
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .contact__kicker {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--accent);
+  }
+
+  .contact__title {
+    margin-top: 14px;
+    font-size: clamp(40px, 6vw, 52px);
+    letter-spacing: -0.03em;
+  }
+
+  .contact__text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--muted);
+  }
+
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 36px;
+  }
+</style>

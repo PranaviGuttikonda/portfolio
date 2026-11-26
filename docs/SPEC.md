@@ -66,7 +66,7 @@ The design and build plan for this site. Later phases refer back to this file.
     - Pill badge: pulsing green dot + "Open to Summer 2027 internships & co-ops".
     - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (~0.09em wide × 1.05em tall, border-radius 2px, its bottom ~0.15em below the baseline like a real text cursor, ~0.12em gap after the period; it must not change the heading's line height), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
     - Paragraph (19px, muted): "Software engineer in Boston. I spent the last year and a half building exchange integrations and debugging trading systems at **GoQuant**. Now I'm doing my MS in CS at **Northeastern**, and building things on the side." (bold words in `--text`)
-    - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline), then GitHub and LinkedIn icon buttons (50×50, outline).
+    - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline, `/resume.pdf` with the `download` attribute), then GitHub and LinkedIn icon buttons (50×50, outline).
   - **Right column:** the chatbot (next section).
 - **Quick-facts row** under both columns, separated by a top border; 4 columns that wrap on mobile. Each has a mono label and a value:
   - PREVIOUSLY: GoQuant · DeepEdge · Isaksai
@@ -229,7 +229,7 @@ Four cards, each with a mono accent label and chips:
 
 - Mono accent line "04. What's next?", then H2 "Let's talk." (52px).
 - Paragraph: "I'm looking for Summer 2027 internships and co-ops. Whether it's a role, a project or just a question, my inbox is open."
-- Buttons: "Say hi →" (accent, `mailto:p.avigutti05@gmail.com`) and "Download resume" (outline, `/resume.pdf`; I'll add the file to `public/`).
+- Buttons: "Say hi →" (accent, `mailto:p.avigutti05@gmail.com`) and "Download resume" (outline, `/resume.pdf` with the `download` attribute; I'll add the file to `public/`).
 - **Footer** (mono, small, muted): "Designed & built by Pranavi Guttikonda" on the left; email · GitHub on the right.
 - LinkedIn URL: https://www.linkedin.com/in/pranaviguttikonda/
 
