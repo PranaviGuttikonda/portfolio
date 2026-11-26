@@ -1,0 +1,627 @@
+/*
+  Given: a full-width stage on top, a grid of six project tabs below.
+  Approach: stage = two-column card on desktop (preview ~55%, details ~45%),
+  stacked below 900px. Tabs: 3 per row ≥900px, 2 per row 600–899px,
+  a scrolling row of pills under 600px.
+*/
+.proj {
+  display: grid;
+  gap: 20px;
+}
+
+/* ---------- Stage ---------- */
+.proj__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+/* Every project is rendered; layers share one grid cell so the stage keeps the
+   height of the tallest project and never jumps. */
+.proj__previews,
+.proj__details {
+  display: grid;
+}
+
+.proj__layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  /* Fade out, then hide (so hidden layers leave the tab order). */
+  transition:
+    opacity 0.2s var(--ease),
+    visibility 0s linear 0.2s;
+}
+
+.proj__layer.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.2s var(--ease),
+    visibility 0s;
+}
+
+.proj__previews {
+  min-height: 380px;
+  border-right: 1px solid var(--border);
+  background-color: var(--bg);
+}
+
+.proj__previews .proj__layer {
+  position: relative;
+}
+
+/* Previews fill their layer but never size it: the stage height comes from the
+   380px minimum and the details column, not from a preview's own aspect ratio. */
+:where(.proj__previews .proj__layer) > * {
+  position: absolute;
+  inset: 0;
+}
+
+.proj__details {
+  padding: 32px;
+}
+
+.proj__details .proj__layer {
+  align-self: center;
+}
+
+.proj__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.proj__title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.proj__badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--warn-border);
+  color: var(--warn);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.proj__built {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--text-2);
+}
+
+.proj__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.proj__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.proj__actions .btn {
+  min-height: 44px;
+  padding-inline: 18px;
+  font-size: 14px;
+}
+
+.proj__chat-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Tabs ---------- */
+.proj__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.proj__tab {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  transition:
+    border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease);
+}
+
+.proj__tab:hover {
+  border-color: var(--border-hover);
+}
+
+.proj__tab[aria-selected='true'] {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.proj__num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.proj__name {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.proj__line {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Tablet / phone: preview stacks on top ---------- */
+@media (max-width: 899px) {
+  .proj__stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .proj__previews {
+    min-height: 0;
+    height: 260px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .proj__details {
+    padding: 22px 20px;
+  }
+
+  .proj__details .proj__layer {
+    align-self: start;
+  }
+
+  .proj__title {
+    font-size: 24px;
+  }
+
+  .proj__tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Phone: tabs become a scrolling row of pills ---------- */
+@media (max-width: 599px) {
+  /* Given: on phones a fixed-height stage leaves empty space under short projects.
+     Approach: only the selected details layer takes up space (the preview stays a
+     fixed 260px), and it fades in when it appears. */
+  .proj__details .proj__layer:not(.is-active) {
+    display: none;
+  }
+
+  .proj__details .proj__layer.is-active {
+    animation: proj-fade-in 0.2s var(--ease);
+  }
+
+  .proj__tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 2px var(--gutter);
+  }
+
+  .proj__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .proj__tab {
+    flex: none;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+  }
+
+  .proj__name {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+
+  .proj__line {
+    display: none;
+  }
+}
+
+@keyframes proj-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj__layer,
+  .proj__layer.is-active {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* =====================================================================
+   Previews
+   ===================================================================== */
+
+/* ---------- quorum: live Raft cluster ---------- */
+.raft {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 18px 10px;
+}
+
+.raft__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.raft__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+}
+
+.raft__pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: raft-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes raft-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.raft__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.raft__btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  transition: border-color 0.2s var(--ease);
+}
+
+.raft__btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.raft__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.raft__svg {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+.raft__ring {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 6;
+}
+
+.raft__heartbeat {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 7;
+  opacity: 0.55;
+  animation: raft-beat 1s linear infinite;
+}
+
+@keyframes raft-beat {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.raft__glow {
+  flood-color: var(--accent);
+  flood-opacity: 0.7;
+}
+
+.raft__node circle {
+  stroke-width: 2;
+  transition:
+    fill 0.25s var(--ease),
+    stroke 0.25s var(--ease);
+}
+
+.raft__node text {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.raft__node--leader circle {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.raft__node--leader text {
+  fill: var(--on-accent);
+}
+
+.raft__node--follower circle {
+  fill: var(--surface);
+  stroke: var(--border-hover);
+}
+
+.raft__node--follower text {
+  fill: var(--text-2);
+}
+
+.raft__node--dead circle {
+  fill: var(--bg);
+  stroke: var(--border-hover);
+  stroke-dasharray: 4 4;
+}
+
+.raft__node--dead text {
+  fill: var(--muted);
+  font-size: 18px;
+}
+
+.raft__center {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 500;
+  fill: var(--text);
+}
+
+/* ---------- Rush Hour Café: static floor grid ---------- */
+.cafe {
+  position: absolute;
+  inset: 24px;
+  width: calc(100% - 48px);
+  height: calc(100% - 48px);
+}
+
+.cafe__floor {
+  fill: var(--surface);
+  stroke: var(--border-strong);
+  stroke-width: 0.4;
+}
+
+.cafe__line {
+  stroke: var(--border);
+  stroke-width: 0.3;
+}
+
+.cafe__table {
+  fill: #fdba74;
+}
+
+.cafe__path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.1 2.2;
+}
+
+.cafe__robot {
+  fill: var(--accent);
+}
+
+.cafe__glow {
+  flood-color: var(--accent);
+  flood-opacity: 0.8;
+}
+
+/* ---------- Quidd: phone frame ---------- */
+/* Everything inside is sized in em, so the phone scales from this font-size. */
+.quidd {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 15px;
+}
+
+.quidd__phone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  width: 13.2em;
+  height: 22em;
+  padding: 2.2em 1em 1em;
+  border-radius: 2.2em;
+  border: 0.45em solid var(--border-strong);
+  background: var(--surface);
+  box-shadow: 0 20px 50px -20px var(--shadow);
+}
+
+.quidd__notch {
+  position: absolute;
+  top: 0.6em;
+  left: 50%;
+  width: 4em;
+  height: 0.7em;
+  border-radius: 1em;
+  background: var(--border-strong);
+  transform: translateX(-50%);
+}
+
+.quidd__card {
+  display: grid;
+  justify-items: center;
+  gap: 0.6em;
+  padding: 0.9em 0.8em 1em;
+  border-radius: 1em;
+  background: var(--surface-2);
+}
+
+.quidd__label {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.quidd__ring {
+  width: 5.6em;
+  height: 5.6em;
+}
+
+.quidd__track {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 9;
+}
+
+.quidd__arc {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.quidd__rows {
+  display: grid;
+  gap: 0.75em;
+  padding: 0 0.3em;
+  list-style: none;
+}
+
+.quidd__row {
+  display: grid;
+  gap: 0.35em;
+}
+
+.quidd__name {
+  font-size: 0.72em;
+  color: var(--text-2);
+}
+
+.quidd__bar {
+  height: 0.3em;
+  border-radius: 1em;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.quidd__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+@media (max-width: 899px) {
+  .quidd {
+    font-size: 10.5px;
+  }
+
+  .raft {
+    padding: 12px 12px 6px;
+  }
+
+  /* Keep the label and both buttons on one row so the ring gets the height. */
+  .raft__bar {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .raft__live {
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .raft__actions {
+    gap: 6px;
+  }
+
+  .raft__btn {
+    height: 30px;
+    padding: 0 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}
+
+/* ---------- Smaller projects: name + stack, no illustration ---------- */
+.textprev {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+}
+
+.textprev__name {
+  font-family: var(--font-mono);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.textprev__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.textprev__tags .chip {
+  background: var(--surface);
+}

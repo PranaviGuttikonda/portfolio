@@ -42,9 +42,34 @@ export const qa: QA[] = [
       'At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System.',
   },
   {
-    keywords: ['building', 'project', 'quorum', 'raft', 'cafe', 'café', 'side'],
+    keywords: ['building', 'project', 'projects', 'side', 'working on'],
     answer:
       'Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below.',
+  },
+  {
+    keywords: ['quorum', 'raft', 'consensus', 'key-value', 'distributed'],
+    answer:
+      "quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section.",
+  },
+  {
+    keywords: ['rush hour', 'café', 'cafe', 'robot', 'pathfinding', 'multi-agent', 'warehouse'],
+    answer:
+      "Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them.",
+  },
+  {
+    keywords: ['trade simulator', 'level-2', 'market data', 'latency'],
+    answer:
+      'The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency.',
+  },
+  {
+    keywords: ['fake news', 'classifier', 'nlp', 'tf-idf'],
+    answer:
+      'Fake News Detection is a classifier built with TF-IDF and n-gram features and Random Forest / SVM models. It reached 86% accuracy using K-fold cross-validation.',
+  },
+  {
+    keywords: ['price prediction', 'house price', 'regression', 'mlflow', 'zenml'],
+    answer:
+      'Price Prediction is an ML pipeline for house price prediction using regression and K-fold cross-validation, with experiment tracking and deployment automated through MLflow and CI/CD.',
   },
   {
     keywords: ['quidd', 'finance', 'budget', 'budgeting', 'money', 'app'],
@@ -69,7 +94,7 @@ export const qa: QA[] = [
   {
     keywords: ['contact', 'email', 'reach', 'linkedin', 'github', 'resume'],
     answer:
-      'Email p.avigutti05@gmail.com, or find her on GitHub at github.com/PranaviGuttikonda. The resume is at the bottom of the page.',
+      'Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page.',
   },
   {
     keywords: ['where', 'location', 'based', 'boston', 'relocate'],
