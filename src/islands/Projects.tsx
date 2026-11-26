@@ -108,8 +108,9 @@ export default function Projects({ projects }: Props) {
                     Play it live →
                   </a>
                 )}
+                {/* Accent goes to the live demo when there is one. */}
                 {p.caseStudy && (
-                  <a href={p.caseStudy} class="btn btn--accent">
+                  <a href={p.caseStudy} class={`btn ${p.live ? 'btn--outline' : 'btn--accent'}`}>
                     Read case study →
                   </a>
                 )}

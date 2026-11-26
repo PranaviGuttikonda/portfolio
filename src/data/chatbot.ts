@@ -49,7 +49,7 @@ export const qa: QA[] = [
   {
     keywords: ['quorum', 'raft', 'consensus', 'key-value', 'distributed'],
     answer:
-      "quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section.",
+      "quorum is a replicated key-value store she's building in C++20 on Raft, with leader election, log replication and crash-safe storage. It's tested with deterministic simulation: 1,000 seeds per fuzz suite, Raft invariants checked every tick, and every client history checked for linearizability. You can play with it live; the link is in the Projects section.",
   },
   {
     keywords: ['rush hour', 'café', 'cafe', 'robot', 'pathfinding', 'multi-agent', 'warehouse'],

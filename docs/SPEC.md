@@ -99,7 +99,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | deepedge, edge ai | At DeepEdge (Mar – May 2025) she built C++ and Python backend infrastructure for a low/no-code Edge AI platform and led a legacy data migration. |
 | isaksai, nysdot, dmv, intern | At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System. |
 | building, project, projects, side, working on | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
-| quorum, raft, consensus, key-value, distributed | quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section. |
+| quorum, raft, consensus, key-value, distributed | quorum is a replicated key-value store she's building in C++20 on Raft, with leader election, log replication and crash-safe storage. It's tested with deterministic simulation: 1,000 seeds per fuzz suite, Raft invariants checked every tick, and every client history checked for linearizability. You can play with it live; the link is in the Projects section. |
 | rush hour, café, cafe, robot, pathfinding, multi-agent, warehouse | Rush Hour Café is a C++20 multi-agent pathfinding sim with three planners: local rules, space-time A* and conflict-based search (CBS). You can play it in your browser: two cafés run side by side, and at 40 robots CBS made 29,597 deliveries in 20,000 ticks against 500 for local rules. The link is in the Projects section. |
 | trade simulator, level-2, market data, latency | The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency. |
 | fake news, classifier, nlp, tf-idf | Fake News Detection is a classifier built with TF-IDF and n-gram features and Random Forest / SVM models. It reached 86% accuracy using K-fold cross-validation. |
@@ -160,8 +160,8 @@ The design and build plan for this site. Later phases refer back to this file.
   - Tablet and desktop (≥600px): the stage height must not jump when switching projects (it keeps the height of the tallest project).
   - Phones (<600px): the card resizes to fit the selected project, so smaller projects don't leave empty space under their details.
 - **Buttons** (each only when it applies):
-  - "Play it live →" (accent, new tab): only for projects with a `live` demo URL (for now only Rush Hour Café). Same spot as "Read case study →".
-  - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
+  - "Play it live →" (accent, new tab): only for projects with a `live` demo URL (quorum and Rush Hour Café). Same spot as "Read case study →".
+  - "Read case study →": only for projects with a case-study page, which for now is only quorum. Accent on its own; outline when the project also has "Play it live →" (which then takes the accent).
   - "Code" (outline): only when the project has a code link.
   - "Ask about this" (outline, chat icon): sends "Tell me about <project name>" to the chatbot. Shown for all 6 projects; each has its own chatbot answer.
 - **Project tabs, below the stage:** a grid of all 6 projects. 3 per row on desktop (`repeat(3, minmax(0, 1fr))`, gap 12px), 2 per row on tablet, and a horizontal scroll row of compact pills on phones (<600px). Each tab shows the mono number, the name (Space Grotesk 18px), and the one-liner (14px, muted; hidden on phone pills). Selected: accent border + `--surface-2`; others: `--border` + `--surface`.
@@ -176,10 +176,12 @@ The 6 projects, in this order:
 - Preview: a **live interactive Raft cluster** (Preact island). 5 nodes on a dashed ring; the leader is filled with accent and has a glow; dead nodes are dashed with a ✕. Corner label "LIVE · term N" with a pulsing dot. Buttons: "Kill leader" and "Reset". Killing the leader elects the next alive node and increments the term. With fewer than 3 of 5 nodes alive, there's no leader and the center reads "no quorum". The center otherwise shows "N/5 up".
 - Problem (case-study page only): Storage spread across machines has to agree on every write, even when a machine dies mid-request.
 - What I built: Raft from scratch in C++20: leader election, log replication, and a deterministic simulator that replays any failure from a seed.
-- Result (case-study page only): [FAILOVER TIME] · [N] simulated runs
+- Result (case-study page only): 1,000 seeds per fuzz suite · 4 Raft safety invariants checked every tick · linearizability checked on every client history
 - Tags: C++20 · Raft · Simulation testing
+- Live: https://pranaviguttikonda.github.io/quorum/ (the real engine in WebAssembly)
 - Code: https://github.com/PranaviGuttikonda/quorum
 - Case study: /projects/quorum
+- Buttons: "Play it live →" (accent), "Read case study →" (outline), "Code", "Ask about this".
 
 **02. Rush Hour Café** (In progress)
 - One-liner: "Robot waiters that plan collision-free routes around a café you lay out."
@@ -238,14 +240,18 @@ Four cards, each with a mono accent label and chips:
 
 ## /projects/quorum (Phase 6)
 
-- **Top:** back link, "In progress" badge plus tags, H1 "quorum", subtitle "A replicated key-value store that keeps accepting writes while machines crash, as long as a majority survives, and refuses them, safely, when it can't." Buttons: "View on GitHub", "Try the live cluster ↓".
-- **Demo panel:** a replicated-log view. Each of the 5 nodes is a row: badge, role (leader/follower/down), then a row of log squares (filled = committed, outlined = not yet committed).
-  - Buttons: "PUT keyN = v", "Kill the leader", "Reset cluster", plus a log line describing what happened.
-  - A PUT replicates to alive nodes and commits only if a majority is alive; otherwise it's rejected with "no majority".
-- **Content:** a sticky side menu on desktop (The problem / Design / Testing / Results / What's next).
-  - **The problem:** "Any service that stores data on more than one machine has to agree on what was written, even when machines crash or messages arrive late. quorum implements Raft from scratch to make that agreement explicit and testable."
-  - **Design:** a flow diagram: Client → Leader (append to log) → Followers ×4 (replicate · ack) → Majority ack (commit · apply to KV). Then 3 decision cards: [DECISION 1/2/3] with [why + trade-off].
-  - **Testing:** "Network, clock and disk run inside a seeded simulator, so a failing run can be replayed exactly from its seed." Then a code block: `$ ./quorum_sim --seed [SEED] --nodes 5 --faults partition,crash` / `[SIMULATOR OUTPUT]`.
-  - **Results:** three stat cards: [N] simulated runs, [ms] median failover time, [ops/s] write throughput.
-  - **What's next:** [placeholder].
-- **Footer:** "← Back to all work" and "Next project: Rush Hour Café →".
+All facts come from the quorum repo (github.com/PranaviGuttikonda/quorum: README.md and docs/VISION.md). Same layout rules as the home page: sticky nav with the theme toggle, both themes, footer.
+
+- **Top** (dot grid): "← Back to all work" (`/#projects`), "In progress" badge plus tags, H1 "quorum", subtitle "A Raft-based replicated key-value store in C++20, tested with deterministic simulation." Buttons: "Play it live →" (accent, https://pranaviguttikonda.github.io/quorum/, new tab) and "View on GitHub" (outline, new tab).
+- **Visualizer screenshot:** `public/projects/quorum/visualizer-split.png` (from the quorum repo's `docs/screenshots/desktop-5-split.png`, 2560×1600, compressed) in a rounded frame, alt text "quorum's visualizer during a network split". Caption: "The real engine, compiled to WebAssembly. Crash servers, split the network and send commands while you watch elections, replication and commits happen." plus a "Play it live →" button.
+- **Sticky side menu on desktop** (≥960px; hidden below): The problem / What it does / Design / Testing / Results / What's next. The current section is highlighted; a clicked link stays highlighted until the visitor scrolls by hand, and the page bottom highlights What's next.
+- **The problem:** "Bugs in distributed systems usually show up only under rare orderings of delays, message losses, partitions and crashes. quorum makes those orderings reproducible: every source of nondeterminism goes through one seeded simulator, so a failing run can be replayed exactly from its seed."
+- **What it does:** a replicated key-value store (`put`, `get`, `delete`, `cas`) with exactly-once client requests; built on Raft (leader election, log replication, persistence); Raft state kept in checksummed files and recovered after crashes.
+- **Design:** flow diagram Client (sends a command) → Leader (appends to its log) → Followers ×4 (replicate · ack) → Majority ack (commit · apply to KV); one row on wide screens, stacked with ↓ arrows below 760px. Then three decision cards:
+  1. **One source of nondeterminism:** all randomness comes from a seeded, portable RNG; all time is simulated ticks; all messages go through the simulated network.
+  2. **Protocol code is I/O-free:** Raft nodes are state machines driven by messages and ticks, so a real transport can replace the simulated one without changing protocol logic.
+  3. **Crash-consistent storage:** Raft state lives in checksummed files, tested on a simulated disk where each crash is a power loss that drops or tears unsynced writes.
+- **Testing:** the fuzz tests run 1,000 seeds each with random crashes, partitions, 10% message loss and 10% duplicate delivery while clients keep writing. Invariant checkers run after every tick (Election Safety, Log Matching, State Machine Safety, Leader Completeness, shown as chips), and every client history is checked for linearizability. Code block with the real command only: `$ QUORUM_FUZZ_SEEDS=200 ./build/tests/quorum_tests replication_fuzz`.
+- **Results:** three stat cards: "1,000" seeds per fuzz suite; "4" Raft safety invariants checked every tick; "Linearizability" checked on every client history.
+- **What's next** (from VISION.md): snapshots and log compaction; benchmarks across cluster sizes, delays and loss rates; a real-network transport.
+- **Footer links:** "← Back to all work" and "Next project: Rush Hour Café →" (both to `/#projects`).

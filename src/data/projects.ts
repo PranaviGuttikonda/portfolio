@@ -35,10 +35,12 @@ export const projects: Project[] = [
     preview: 'raft',
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/quorum',
+    live: 'https://pranaviguttikonda.github.io/quorum/',
     caseStudy: '/projects/quorum',
     problem:
       'Storage spread across machines has to agree on every write, even when a machine dies mid-request.',
-    result: '[FAILOVER TIME] · [N] simulated runs',
+    result:
+      '1,000 seeds per fuzz suite · 4 Raft safety invariants checked every tick · linearizability checked on every client history',
   },
   {
     id: 'rush-hour-cafe',
