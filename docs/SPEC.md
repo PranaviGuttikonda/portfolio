@@ -100,7 +100,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | isaksai, nysdot, dmv, intern | At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System. |
 | building, project, projects, side, working on | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
 | quorum, raft, consensus, key-value, distributed | quorum is a replicated key-value store she's building in C++20. It implements Raft from scratch, with leader election and log replication, plus a deterministic simulator that replays any failure from a seed. You can crash its leader in the live demo in the Projects section. |
-| rush hour, café, cafe, robot, pathfinding, multi-agent, warehouse | Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them. |
+| rush hour, café, cafe, robot, pathfinding, multi-agent, warehouse | Rush Hour Café is a C++20 multi-agent pathfinding sim with three planners: local rules, space-time A* and conflict-based search (CBS). You can play it in your browser: two cafés run side by side, and at 40 robots CBS made 29,597 deliveries in 20,000 ticks against 500 for local rules. The link is in the Projects section. |
 | trade simulator, level-2, market data, latency | The Real-Time Trade Simulator is a Python pipeline that ingests live Level-2 market data over WebSocket, simulates trades, and profiles end-to-end latency. |
 | fake news, classifier, nlp, tf-idf | Fake News Detection is a classifier built with TF-IDF and n-gram features and Random Forest / SVM models. It reached 86% accuracy using K-fold cross-validation. |
 | price prediction, house price, regression, mlflow, zenml | Price Prediction is an ML pipeline for house price prediction using regression and K-fold cross-validation, with experiment tracking and deployment automated through MLflow and CI/CD. |
@@ -155,11 +155,12 @@ The design and build plan for this site. Later phases refer back to this file.
 
 - **Intro line:** "Pick a project to see what it does and how it's built. quorum runs live, so try crashing its leader."
 - **Stage:** full width of the container (surface, border, radius 18, overflow hidden).
-  - Desktop (≥900px): a two-column card. Preview on the left (~55%, full card height, min 380px, dot grid); details on the right (~45%, padding 32px): name + "In progress" badge, the "What I built" paragraph, tag chips, then buttons.
+  - Desktop (≥900px): a two-column card. Preview on the left (~55%, full card height, min 380px, dot grid); details on the right (~45%, padding 32px): name + "In progress" badge, the "What I built" paragraph, an optional `highlight` (one mono line, shown only when set), tag chips, then buttons.
   - Below 900px: the preview stacks on top (260px) with the details under it.
   - Tablet and desktop (≥600px): the stage height must not jump when switching projects (it keeps the height of the tallest project).
   - Phones (<600px): the card resizes to fit the selected project, so smaller projects don't leave empty space under their details.
 - **Buttons** (each only when it applies):
+  - "Play it live →" (accent, new tab): only for projects with a `live` demo URL (for now only Rush Hour Café). Same spot as "Read case study →".
   - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
   - "Code" (outline): only when the project has a code link.
   - "Ask about this" (outline, chat icon): sends "Tell me about <project name>" to the chatbot. Shown for all 6 projects; each has its own chatbot answer.
@@ -182,13 +183,15 @@ The 6 projects, in this order:
 
 **02. Rush Hour Café** (In progress)
 - One-liner: "Robot waiters that plan collision-free routes around a café you lay out."
-- Preview: a 10×6 grid. Tables are peach `#FDBA74` squares, 2 robots are glowing accent circles, and a dotted accent path runs between them. Static for now.
+- Preview: the recording, `<video autoplay muted loop playsinline preload="metadata" poster=…>` with `public/projects/rush-hour-cafe/rush-hour-cafe.webm` first, then `.mp4`; poster `rush-hour-cafe-poster.jpg`. Shown with `object-fit: contain` inside a rounded frame (radius 10px, 1px `--border`, padding ~12px) centered in the preview area. Plays only while Rush Hour Café is selected and pauses when switching away. With `prefers-reduced-motion` it doesn't autoplay: poster only. aria-label: "Recording of Rush Hour Café: two cafés side by side; robots under local rules jam at the kitchen counter while CBS keeps serving."
 - Problem (case-study page only): Many robots sharing one floor have to reach their tables without colliding or deadlocking.
-- What I built: A multi-agent pathfinding engine in C++ with a playable front end: place tables, then watch robots plan.
-- Result (case-study page only): [N] robots · [ms] planning time
-- Tags: C++ · Multi-agent pathfinding · Simulation
+- What I built: A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A*, and conflict-based search) and a raylib viewer compiled to WebAssembly. Two cafés run side by side so you can watch each planner handle the lunch rush.
+- Highlight (mono line under What I built): At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).
+- Result (case-study page only): At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).
+- Tags: C++20 · Multi-agent pathfinding · CBS · WebAssembly · raylib
+- Live: https://pranaviguttikonda.github.io/warehouse-world/
 - Code: https://github.com/PranaviGuttikonda/warehouse-world
-- No case-study page yet, so no "Read case study →" button.
+- Buttons: "Play it live →", "Code", "Ask about this". No case-study page yet.
 
 **03. Quidd** (In progress)
 - One-liner: "A budgeting app that shows what you can still safely spend."

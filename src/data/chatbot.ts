@@ -54,7 +54,7 @@ export const qa: QA[] = [
   {
     keywords: ['rush hour', 'café', 'cafe', 'robot', 'pathfinding', 'multi-agent', 'warehouse'],
     answer:
-      "Rush Hour Café is a multi-agent pathfinding engine she's building in C++, with a playable front end: you lay out tables in a café and robot waiters plan collision-free routes around them.",
+      'Rush Hour Café is a C++20 multi-agent pathfinding sim with three planners: local rules, space-time A* and conflict-based search (CBS). You can play it in your browser: two cafés run side by side, and at 40 robots CBS made 29,597 deliveries in 20,000 ticks against 500 for local rules. The link is in the Projects section.',
   },
   {
     keywords: ['trade simulator', 'level-2', 'market data', 'latency'],

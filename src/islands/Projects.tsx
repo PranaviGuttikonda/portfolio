@@ -2,7 +2,7 @@ import { useRef, useState } from 'preact/hooks';
 import type { Project, PreviewKind } from '../data/projects';
 import { askPranavi } from '../lib/ask';
 import RaftCluster from './previews/RaftCluster';
-import CafeGrid from './previews/CafeGrid';
+import CafeVideo from './previews/CafeVideo';
 import QuiddPhone from './previews/QuiddPhone';
 import TextPreview from './previews/TextPreview';
 import './Projects.css';
@@ -11,12 +11,12 @@ interface Props {
   projects: Project[];
 }
 
-const renderPreview = (kind: PreviewKind, p: Project) => {
+const renderPreview = (kind: PreviewKind, p: Project, active: boolean) => {
   switch (kind) {
     case 'raft':
       return <RaftCluster />;
-    case 'cafe':
-      return <CafeGrid />;
+    case 'cafe-video':
+      return <CafeVideo active={active} />;
     case 'quidd':
       return <QuiddPhone />;
     case 'text':
@@ -73,7 +73,7 @@ export default function Projects({ projects }: Props) {
         <div class="proj__previews dot-grid">
           {projects.map((p, i) => (
             <div key={p.id} class={layer(i)}>
-              {renderPreview(p.preview, p)}
+              {renderPreview(p.preview, p, i === active)}
             </div>
           ))}
         </div>
@@ -87,6 +87,7 @@ export default function Projects({ projects }: Props) {
               </div>
 
               <p class="proj__built">{p.built}</p>
+              {p.highlight && <p class="proj__highlight">{p.highlight}</p>}
 
               <ul class="proj__tags" aria-label="Technologies">
                 {p.tags.map((t) => (
@@ -97,6 +98,16 @@ export default function Projects({ projects }: Props) {
               </ul>
 
               <div class="proj__actions">
+                {p.live && (
+                  <a
+                    href={p.live}
+                    class="btn btn--accent"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Play it live →
+                  </a>
+                )}
                 {p.caseStudy && (
                   <a href={p.caseStudy} class="btn btn--accent">
                     Read case study →
