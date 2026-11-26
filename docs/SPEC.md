@@ -45,7 +45,6 @@ The design and build plan for this site. Later phases refer back to this file.
 | `--on-accent` (text on accent buttons) | `#0B1220` | `#FFFFFF` |
 | `--success` (status dots) | `#4ADE80` | `#4ADE80` |
 | `--warn` / `--warn-border` ("In progress" badge) | `#FCD34D` / `#5B4A1A` | `#92400E` / `#F3D9A4` |
-| `--ask` / `--bid` (order book) | `#F87171` / `#4ADE80` | `#B91C1C` / `#15803D` |
 | `--shadow` | `rgba(0,0,0,.45)` | `rgba(20,22,26,.12)` |
 
 - **Fonts (Google Fonts):** Space Grotesk 500/600 for headings; Inter 400/500/600 for body; JetBrains Mono 400/500/600 for labels, numbers, and code.
@@ -99,7 +98,8 @@ The design and build plan for this site. Later phases refer back to this file.
 | goquant, quant, trading, exchange, last job, previous job | At GoQuant (May 2025 – Sep 2026) she was a Quantitative/Backend Developer. She built trading integrations across 15+ crypto exchanges (auth, request signing, rate limiting, resilient WebSocket sessions), supported 8+ client deployments, and documented 100+ defects. |
 | deepedge, edge ai | At DeepEdge (Mar – May 2025) she built C++ and Python backend infrastructure for a low/no-code Edge AI platform and led a legacy data migration. |
 | isaksai, nysdot, dmv, intern | At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System. |
-| building, project, quorum, raft, cafe, café, side | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing, and Rush Hour Café, a multi-agent pathfinding simulation. Both are in the Projects section below. |
+| building, project, quorum, raft, cafe, café, side | Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below. |
+| quidd, finance, budget, budgeting, money, app | Quidd is a personal finance app she's building in React Native with Supabase. It uses a rule-based 'spendable-first' budgeting engine, so it shows what you can still safely spend, with deterministic logic instead of LLM calculations. |
 | stack, skill, language, tech, c++, python, java | Mostly C++, Python and Java, plus TypeScript and SQL. Tools: Linux, Docker, Kubernetes, AWS, WebSockets, REST, PostgreSQL. |
 | available, looking, hire, co-op, coop, job, open | Yes. She is looking for Summer 2027 internships and co-ops in software engineering. |
 | school, study, northeastern, degree, education, ucm, gpa | She is doing an MS in Computer Science at Northeastern (Khoury), 2026–2028. Before that, a B.S. in CS from the University of Central Missouri, Cum Laude. |
@@ -175,16 +175,16 @@ The design and build plan for this site. Later phases refer back to this file.
 - Tags: C++ · Multi-agent pathfinding · Simulation
 - Code: https://github.com/PranaviGuttikonda/warehouse-world
 
-**3. Trading Engine**
-- Preview: an order book with 4 asks (red) above a "spread 0.05" line and 4 bids (green) below, each with a depth bar. Prices 101.40 → 101.05.
-- Problem: Matching orders correctly while many threads read and write the same book at once.
-- What I built: Thread-safe order book with lock-free synchronization, benchmarked under simulated high-throughput load.
-- Result: [p99 LATENCY] under [N] orders/s
-- Tags: C++ · Multithreading · Lock-free · WebSocket
-- Code: [LINK]
+**3. Quidd** (In progress)
+- Preview: a simple phone frame in the theme colors showing a "Spendable this week" card with a progress ring and 3 category rows (Food, Transport, Shopping) with thin bars. No amounts and no currency symbols.
+- Problem: Most budgeting apps tell you what you've already spent, not what you can still safely spend.
+- What I built: A React Native app with a rule-based "spendable-first" budgeting engine on Supabase. I replaced LLM-driven calculations with deterministic logic so the numbers are predictable.
+- Result: [RESULT]
+- Tags: React Native · TypeScript · Supabase · Zustand
+- Code: https://github.com/PranaviGuttikonda/Quidd
+- "Ask about this" asks "Tell me about Quidd"
 
 **Other projects:** small card grid under the label "OTHER PROJECTS". Each card has name, one line, and stack in mono.
-- **Quidd:** Personal finance app with a deterministic budgeting engine. (TS · React Native · Postgres)
 - **Real-Time Trade Simulator:** Level-2 market-data pipeline with latency profiling. (Python · WebSocket) **No code link; this one is confidential.**
 - **Fake News Detection:** TF-IDF + Random Forest / SVM classifier, 86% accuracy. (Python · scikit-learn)
 - **Price Prediction:** ML pipeline with MLflow tracking and CI/CD. (Python · ZenML · MLflow)
