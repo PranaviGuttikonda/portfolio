@@ -64,7 +64,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Two-column layout** (stacks on mobile):
   - **Left column:**
     - Pill badge: pulsing green dot + "Open to Summer 2027 internships & co-ops".
-    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (inline-block, ~0.08em wide × 0.85em tall, sitting on the baseline, ~0.12em gap after the period), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
+    - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (~0.09em wide × 1.05em tall, border-radius 2px, its bottom ~0.15em below the baseline like a real text cursor, ~0.12em gap after the period; it must not change the heading's line height), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
     - Paragraph (19px, muted): "Software engineer in Boston. I spent the last year and a half building exchange integrations and debugging trading systems at **GoQuant**. Now I'm doing my MS in CS at **Northeastern**, and building things on the side." (bold words in `--text`)
     - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline), then GitHub and LinkedIn icon buttons (50×50, outline).
   - **Right column:** the chatbot (next section).
@@ -148,7 +148,7 @@ The design and build plan for this site. Later phases refer back to this file.
 
 ## 02. Things I've built: project switcher (Preact island)
 
-- **Intro line:** "Each one runs right here in the browser. Open a project for the design decisions and trade-offs behind it."
+- **Intro line:** "Pick a project to see what it does and how it's built. quorum runs live, so try crashing its leader."
 - **Layout:** two columns. Left = "stage" card (`flex: 999 1 600px`; surface, border, radius 18, overflow hidden). Right = project list (`flex: 1 1 300px`), 3 stacked buttons with a 10px gap.
 - **List buttons:** mono "01/02/03" label, project name (Space Grotesk 20px, 600), one-line description (14px, muted). Selected: accent border + `--surface-2` background; others: `--border` + `--surface`. Use proper tab semantics (`role=tablist`/`tab`/`tabpanel`, `aria-selected`, arrow keys move between tabs).
 - **Stage, top:** preview area 380px tall with the dot grid.
