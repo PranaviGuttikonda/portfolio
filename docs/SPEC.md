@@ -17,7 +17,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Phase 1, Foundation:** theme tokens (both themes as CSS variables), fonts, base layout, sticky nav with the light/dark toggle, footer, dot-grid background utility, section heading component. Theme logic: default to the OS setting (`prefers-color-scheme`), fall back to dark, save the visitor's choice in `localStorage`, and avoid a flash of the wrong theme on load (inline script in `<head>`).
 - **Phase 2, Hero + chatbot** (chatbot spec below).
 - **Phase 3, Experience** (tabbed).
-- **Phase 4, Projects** (case-study rows, live quorum cluster island, previews, "Ask about this").
+- **Phase 4, Projects** (project switcher, live quorum cluster island, previews, "Ask about this").
 - **Phase 5, Skills, contact, footer, resume PDF link.**
 - **Phase 6, quorum project page** at `/projects/quorum`.
 - **Phase 7, Polish:** ⌘K command palette, SEO meta + Open Graph image, favicon, sitemap, Lighthouse pass (aim for 95+ on all four scores), deploy config for Vercel.
@@ -146,43 +146,51 @@ The design and build plan for this site. Later phases refer back to this file.
   - Validated API integrations with Postman through UAT and bug triage.
 - Tags: T-SQL, SSIS, REST, Postman
 
-## 02. Things I've built: case-study rows
+## 02. Things I've built: project switcher (Preact island)
 
 - **Intro line:** "Each one runs right here in the browser. Open a project for the design decisions and trade-offs behind it."
-- **Row layout:** each main project is a full-width row separated by a top border, with the preview and text sides alternating (preview left, then right, then left). On mobile, the preview stacks on top.
-- **Preview panel:** 360px tall, radius 16, dot grid.
-- **Text side:**
-  - Small mono number (01/02/03) and project name (Space Grotesk, 30px).
-  - "In progress" badge where noted.
-  - Three labeled blocks with mono accent labels: PROBLEM / WHAT I BUILT / RESULT. The result is in mono.
-  - Tag chips.
-  - Buttons: "Read case study →" (accent), "Code" (outline), "Ask about this" (outline, chat icon; opens the chatbot with "Tell me about <project>").
+- **Layout:** two columns. Left = "stage" card (`flex: 999 1 600px`; surface, border, radius 18, overflow hidden). Right = project list (`flex: 1 1 300px`), 3 stacked buttons with a 10px gap.
+- **List buttons:** mono "01/02/03" label, project name (Space Grotesk 20px, 600), one-line description (14px, muted). Selected: accent border + `--surface-2` background; others: `--border` + `--surface`. Use proper tab semantics (`role=tablist`/`tab`/`tabpanel`, `aria-selected`, arrow keys move between tabs).
+- **Stage, top:** preview area 380px tall with the dot grid.
+- **Stage, bottom** (padding 26px 28px): project name (Space Grotesk 28px) + "In progress" badge, the "What I built" paragraph, tag chips, then buttons:
+  - "Read case study →" (accent): only for projects with a case-study page, which for now is only quorum.
+  - "Code" (outline).
+  - "Ask about this" (outline, chat icon): sends "Tell me about <project>" to the chatbot.
+- **Switching projects:** quick crossfade (~200ms); no animation with `prefers-reduced-motion`.
+- **Mobile (<900px):** the list becomes a horizontal scroll row of compact tabs above the stage; the preview shrinks to 260px tall.
+- **Not shown in the switcher:** each project's Problem and Result. They stay below for the project's case-study page.
 
-**1. quorum** (In progress)
+The 3 projects, in this order:
+
+**01. quorum** (In progress)
+- One-liner: "A replicated key-value store that keeps accepting writes while machines crash."
 - Preview: a **live interactive Raft cluster** (Preact island). 5 nodes on a dashed ring; the leader is filled with accent and has a glow; dead nodes are dashed with a ✕. Corner label "LIVE · term N" with a pulsing dot. Buttons: "Kill leader" and "Reset". Killing the leader elects the next alive node and increments the term. With fewer than 3 of 5 nodes alive, there's no leader and the center reads "no quorum". The center otherwise shows "N/5 up".
-- Problem: Storage spread across machines has to agree on every write, even when a machine dies mid-request.
+- Problem (case-study page only): Storage spread across machines has to agree on every write, even when a machine dies mid-request.
 - What I built: Raft from scratch in C++20: leader election, log replication, and a deterministic simulator that replays any failure from a seed.
-- Result: [FAILOVER TIME] · [N] simulated runs
+- Result (case-study page only): [FAILOVER TIME] · [N] simulated runs
 - Tags: C++20 · Raft · Simulation testing
 - Code: https://github.com/PranaviGuttikonda/quorum
 - Case study: /projects/quorum
 
-**2. Rush Hour Café** (In progress)
+**02. Rush Hour Café** (In progress)
+- One-liner: "Robot waiters that plan collision-free routes around a café you lay out."
 - Preview: a 10×6 grid. Tables are peach `#FDBA74` squares, 2 robots are glowing accent circles, and a dotted accent path runs between them. Static for now.
-- Problem: Many robots sharing one floor have to reach their tables without colliding or deadlocking.
+- Problem (case-study page only): Many robots sharing one floor have to reach their tables without colliding or deadlocking.
 - What I built: A multi-agent pathfinding engine in C++ with a playable front end: place tables, then watch robots plan.
-- Result: [N] robots · [ms] planning time
+- Result (case-study page only): [N] robots · [ms] planning time
 - Tags: C++ · Multi-agent pathfinding · Simulation
 - Code: https://github.com/PranaviGuttikonda/warehouse-world
+- No case-study page yet, so no "Read case study →" button.
 
-**3. Quidd** (In progress)
+**03. Quidd** (In progress)
+- One-liner: "A budgeting app that shows what you can still safely spend."
 - Preview: a simple phone frame in the theme colors showing a "Spendable this week" card with a progress ring and 3 category rows (Food, Transport, Shopping) with thin bars. No amounts and no currency symbols.
-- Problem: Most budgeting apps tell you what you've already spent, not what you can still safely spend.
+- Problem (case-study page only): Most budgeting apps tell you what you've already spent, not what you can still safely spend.
 - What I built: A React Native app with a rule-based "spendable-first" budgeting engine on Supabase. I replaced LLM-driven calculations with deterministic logic so the numbers are predictable.
-- Result: [RESULT]
+- Result (case-study page only): [RESULT]
 - Tags: React Native · TypeScript · Supabase · Zustand
 - Code: https://github.com/PranaviGuttikonda/Quidd
-- "Ask about this" asks "Tell me about Quidd"
+- No case-study page yet, so no "Read case study →" button.
 
 **Other projects:** small card grid under the label "OTHER PROJECTS". Each card has name, one line, and stack in mono.
 - **Real-Time Trade Simulator:** Level-2 market-data pipeline with latency profiling. (Python · WebSocket) **No code link; this one is confidential.**
