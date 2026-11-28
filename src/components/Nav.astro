@@ -1,5 +1,6 @@
 ---
 import { navLinks } from '../data/site';
+import SocialLinks from './SocialLinks.astro';
 ---
 
 <header class="nav">
@@ -20,6 +21,10 @@ import { navLinks } from '../data/site';
           ))
         }
       </ul>
+      <!-- Phone/tablet menu only: contact icons under the links. -->
+      <div class="nav__social">
+        <SocialLinks size="md" />
+      </div>
     </nav>
 
     <div class="nav__actions">
@@ -144,7 +149,7 @@ import { navLinks } from '../data/site';
     }
   });
 
-  window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => {
+  window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => {
     if (e.matches) setMenu(false);
   });
 </script>
@@ -177,6 +182,10 @@ import { navLinks } from '../data/site';
 
   .nav__dot {
     color: var(--accent);
+  }
+
+  .nav__social {
+    display: none;
   }
 
   .nav__links ul {
@@ -270,7 +279,7 @@ import { navLinks } from '../data/site';
   }
 
   /* ---------- Mobile / tablet: links collapse into a menu ---------- */
-  @media (max-width: 899px) {
+  @media (max-width: 959px) {
     .nav__menu-btn {
       display: inline-grid;
     }
@@ -334,6 +343,14 @@ import { navLinks } from '../data/site';
 
     .nav__links li:last-child .nav__link {
       border-bottom: 0;
+    }
+
+    .nav__social {
+      display: block;
+      max-width: calc(var(--max-width) + var(--gutter) * 2);
+      margin-inline: auto;
+      padding: 14px var(--gutter) 20px;
+      border-top: 1px solid var(--border);
     }
   }
 </style>
