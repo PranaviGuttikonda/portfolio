@@ -6,6 +6,9 @@
 export interface QA {
   keywords: string[];
   answer: string;
+  // Answer only when no other row matches (a softer fallback before the
+  // "I don't have that one" line). For broad words like "about".
+  onlyIfNoOtherMatch?: boolean;
 }
 
 export const greeting =
@@ -105,7 +108,9 @@ export const qa: QA[] = [
     answer: 'Hi! Ask me about her experience, projects, skills, or availability.',
   },
   {
-    // Last, so ties with more specific rows go to them ("Tell me about …" contains "about").
+    // "about" appears in "Tell me about …" and "What about …", so this row only answers
+    // when nothing more specific matches.
+    onlyIfNoOtherMatch: true,
     keywords: ['about', 'background', 'hobby', 'hobbies', 'outside', 'reading', 'books'],
     answer:
       "Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café.",

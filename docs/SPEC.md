@@ -86,7 +86,7 @@ The design and build plan for this site. Later phases refer back to this file.
   - "How to contact her?"
 - **Input row:** text input ("Ask anything about her work…") plus a send button (accent, arrow icon). Enter sends.
 - **Reply behavior:** after sending, show a "typing" bubble (3 pulsing dots) for ~700ms, then the answer.
-- **Matching:** keyword lookup over the table below. Keywords of 3 characters or fewer must match whole words only; longer keywords can match as substrings. Fallback when nothing matches: "I don't have that one. Pranavi can answer directly at p.avigutti05@gmail.com."
+- **Matching:** keyword lookup over the table below. The about/background row is a soft fallback: it answers only when no other row matches, before the "I don't have that one" line. Keywords of 3 characters or fewer must match whole words only; longer keywords can match as substrings. Fallback when nothing matches: "I don't have that one. Pranavi can answer directly at p.avigutti05@gmail.com."
 - **Data file:** keep the Q&A in `src/data/chatbot.ts` so I can edit it, and so it could later be swapped for an LLM backend without changing the UI.
 
 | Keywords | Answer |
@@ -107,7 +107,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | contact, email, reach, linkedin, github, resume | Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page. |
 | where, location, based, boston, relocate | She is based in Boston, MA. |
 | hi, hello, hey | Hi! Ask me about her experience, projects, skills, or availability. |
-| about, background, hobby, hobbies, outside, reading, books (last row) | Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café. |
+| about, background, hobby, hobbies, outside, reading, books (only when no other row matches) | Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café. |
 
 - Expose a global way to open the chat with a prefilled question (e.g. a custom DOM event `ask-pranavi` with the question text). The projects' "Ask about this" buttons use it: scroll to the chat, then send the question.
 
