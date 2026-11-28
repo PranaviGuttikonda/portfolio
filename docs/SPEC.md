@@ -20,7 +20,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Phase 4, Projects** (project switcher, live quorum cluster island, previews, "Ask about this").
 - **Phase 5, Skills, contact, footer, resume PDF link.**
 - **Phase 6, quorum project page** at `/projects/quorum`.
-- **Phase 7, Polish:** ⌘K command palette, education block, custom 404 page, SEO meta + Open Graph image, favicon, sitemap + robots.txt, Vercel Web Analytics, Lighthouse pass (95+ on all four scores), Vercel deploy.
+- **Phase 7, Polish:** ⌘K command palette, education (now in About), custom 404 page, SEO meta + Open Graph image, favicon, sitemap + robots.txt, Vercel Web Analytics, Lighthouse pass (95+ on all four scores), Vercel deploy.
 
 ---
 
@@ -50,13 +50,13 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Fonts (Google Fonts):** Space Grotesk 500/600 for headings; Inter 400/500/600 for body; JetBrains Mono 400/500/600 for labels, numbers, and code.
 - **Dot grid:** `background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px); background-size: 24px 24px`.
 - **Layout:** content max-width 1160px, 24px side padding. Cards: radius 16–18px, 1px border, surface background. Card hover: lift 4px + `--border-hover`.
-- **Section headings:** mono accent number + Space Grotesk title + a 1px line filling the rest of the row, e.g. `01. Where I've worked ───────`.
+- **Section headings:** mono accent number + Space Grotesk title + a 1px line filling the rest of the row, e.g. `02. Where I've worked ───────`. Sections in order: 01. About, 02. Where I've worked, 03. Things I've built, 04. Toolbox, 05. Contact ("05. What's next?").
 
 ## Nav (sticky, bottom border)
 
 - **Left:** `pranavi.g` in JetBrains Mono, with the dot in accent color.
-- **Right:** `01. Experience`, `02. Projects`, `03. Skills`, `04. Contact` (numbers in mono accent), then the theme toggle (sun icon in dark mode, moon icon in light mode, 40×40), then a `Jump to… ⌘K` button that opens the command palette (shows `Ctrl K` off Apple devices). Below 900px it becomes a 40×40 search icon button.
-- **Mobile:** links collapse into a menu button.
+- **Right:** `01. About`, `02. Experience`, `03. Projects`, `04. Skills`, `05. Contact` (numbers in mono accent), then the theme toggle (sun icon in dark mode, moon icon in light mode, 40×40), then a `Jump to… ⌘K` button that opens the command palette (shows `Ctrl K` off Apple devices). Below 960px the links collapse into the menu and it becomes a 40×40 search icon button.
+- **Mobile:** links collapse into a menu button. The open menu ends with a row of mail, GitHub and LinkedIn icon buttons (44×44).
 
 ## Hero
 
@@ -65,14 +65,10 @@ The design and build plan for this site. Later phases refer back to this file.
   - **Left column:**
     - Pill badge: pulsing green dot + "Open to Summer 2027 internships & co-ops".
     - H1 (Space Grotesk, ~76px desktop, ~44px mobile, tight letter-spacing): `hi, I'm Pranavi.` with "Pranavi" in accent. Followed by a blinking terminal cursor: a solid accent bar (~0.09em wide × 1.05em tall, border-radius 2px, its bottom ~0.15em below the baseline like a real text cursor, ~0.12em gap after the period; it must not change the heading's line height), blinking on/off every 0.5s with `steps(1)`, `aria-hidden="true"`. With `prefers-reduced-motion` it stays visible but doesn't blink. It never wraps away from "Pranavi." on narrow screens.
-    - Paragraph (19px, muted): "Software engineer in Boston. I spent the last year and a half building exchange integrations and debugging trading systems at **GoQuant**. Now I'm doing my MS in CS at **Northeastern**, and building things on the side." (bold words in `--text`)
-    - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline, `/resume.pdf` with the `download` attribute), then GitHub and LinkedIn icon buttons (50×50, outline).
+    - One line (19px, muted): "Software engineer in Boston, working on backend and distributed systems."
+    - Buttons: "See my work →" (accent, scrolls to Experience), "Resume ↓" (outline, `/resume.pdf` with the `download` attribute), then Email (`mailto:p.avigutti05@gmail.com`), GitHub and LinkedIn icon buttons (50×50, outline, `aria-label`s "Email", "GitHub", "LinkedIn").
   - **Right column:** the chatbot (next section).
-- **Quick-facts row** under both columns, separated by a top border; 4 columns that wrap on mobile. Each has a mono label and a value:
-  - PREVIOUSLY: GoQuant · DeepEdge · Isaksai
-  - STUDYING: MS CS · Northeastern University
-  - FOCUS: Backend · distributed systems · C++
-  - BASED IN: Boston, MA
+- No quick-facts row: that information lives in About.
 
 ## Chatbot (Preact island, scripted, no backend for now)
 
@@ -111,10 +107,24 @@ The design and build plan for this site. Later phases refer back to this file.
 | contact, email, reach, linkedin, github, resume | Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page. |
 | where, location, based, boston, relocate | She is based in Boston, MA. |
 | hi, hello, hey | Hi! Ask me about her experience, projects, skills, or availability. |
+| about, background, hobby, hobbies, outside, reading, books (last row) | Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café. |
 
 - Expose a global way to open the chat with a prefilled question (e.g. a custom DOM event `ask-pranavi` with the question text). The projects' "Ask about this" buttons use it: scroll to the chat, then send the question.
 
-## 01. Where I've worked (tabs, Preact island)
+## 01. About (right after the hero)
+
+- **Layout:** desktop two columns, text on the left (~60%) and an "At a glance" card on the right (~40%); below 900px stacked, text first.
+- **Text,** three paragraphs (18px, line-height 1.75, `--text-2`; company and school names in `--accent`, semibold, not links):
+  1. "I'm a software engineer currently pursuing my MS in CS at **Northeastern University** in Boston. Before that, I was a backend developer at **GoQuant**, working on exchange integrations and trading systems, and before that at **DeepEdge** and **Isaksai**."
+  2. "Right now I'm looking for Summer 2027 internships and co-ops in backend, infrastructure and systems work."
+  3. "Outside of code, I'm usually reading or building something that probably didn't need to exist, like a café run by robots."
+- **"At a glance" card** (surface, 1px border, radius 16): mono label "AT A GLANCE", then two education rows (dates in mono accent, school in Space Grotesk, degree, details in muted text):
+  - Sep 2026 – May 2028 · Northeastern University · MS in Computer Science · Coursework: Programming Design Paradigm, Database Management Systems
+  - May 2024 · University of Central Missouri · B.S. in Computer Science · GPA 3.62 · Cum Laude · Dean's List
+  - Then three fact rows (mono label left, value right, thin borders between): BASED IN: Boston, MA · FROM: India · WORKS IN: C++ · Python · Java
+- Data in `src/data/education.ts`. Education appears only here.
+
+## 02. Where I've worked (tabs, Preact island)
 
 - **Layout:** vertical tab list on the left (mono font, 2px left border; the active tab gets an accent border, accent text, and surface background), detail card on the right. On mobile the tabs become a horizontal scroll row.
 - **Detail card:** "Role @ Company" (company in accent), dates in mono on the right, location underneath, bullets with an accent `▹` marker, then tech tags (mono chips).
@@ -151,7 +161,7 @@ The design and build plan for this site. Later phases refer back to this file.
   - Validated API integrations with Postman through UAT and bug triage.
 - Tags: T-SQL, SSIS, REST, Postman
 
-## 02. Things I've built: project switcher (Preact island)
+## 03. Things I've built: project switcher (Preact island)
 
 - **Intro line:** "Pick a project to see what it does and how it's built. quorum runs live, so try crashing its leader."
 - **Stage:** full width of the container (surface, border, radius 18, overflow hidden).
@@ -225,7 +235,7 @@ The 6 projects, in this order:
 - Tags: Python · ZenML · MLflow
 - Code: none yet.
 
-## 03. Toolbox
+## 04. Toolbox
 
 Four cards, each with a mono accent label and chips:
 - **LANGUAGES:** C++, Python, Java, TypeScript, JavaScript, SQL
@@ -233,9 +243,9 @@ Four cards, each with a mono accent label and chips:
 - **DATA & WEB:** PostgreSQL, MongoDB, React, Next.js, FastAPI, Node.js
 - **ML:** PyTorch, scikit-learn, MLflow, RAG, NLP
 
-## 04. Contact (centered)
+## 05. Contact (centered)
 
-- Mono accent line "04. What's next?", then H2 "Let's talk." (52px).
+- Mono accent line "05. What's next?", then H2 "Let's talk." (52px).
 - Paragraph: "I'm looking for Summer 2027 internships and co-ops. Whether it's a role, a project or just a question, my inbox is open."
 - Buttons: "Say hi →" (accent, `mailto:p.avigutti05@gmail.com`) and "Download resume" (outline, `/resume.pdf` with the `download` attribute; I'll add the file to `public/`).
 - **Footer** (mono, small, muted): "Designed & built by Pranavi Guttikonda" on the left; email · GitHub on the right.
@@ -259,17 +269,10 @@ All facts come from the quorum repo (github.com/PranaviGuttikonda/quorum: README
 - **What's next** (from VISION.md): snapshots and log compaction; benchmarks across cluster sizes, delays and loss rates; a real-network transport.
 - **Footer links:** "← Back to all work" (`/#projects`) and "Next project: Rush Hour Café →" (`/?project=rush-hour-cafe#projects`, which opens the switcher with Rush Hour Café selected).
 
-## Education (Phase 7)
-
-A small block under the experience tabs, inside "01. Where I've worked" (so section numbering stays the same). Mono accent label "EDUCATION", two cards side by side (stacked below 768px). Data in `src/data/education.ts`.
-
-- **Northeastern University, Khoury College:** MS in Computer Science · Sep 2026 – May 2028 · Coursework: Programming Design Paradigm, Database Management Systems
-- **University of Central Missouri:** B.S. in Computer Science · May 2024 · GPA 3.62 · Cum Laude · Dean's List (Fall 2022, Spring 2023)
-
 ## Command palette (Phase 7)
 
 - Opens from the nav's `Jump to… ⌘K` button or Cmd/Ctrl+K on every page (home, /projects/quorum, 404). Cmd/Ctrl+K again closes it.
-- Items: Experience, Projects, Skills, Contact (scroll on the home page, navigate there from other pages); each of the 6 projects (opens `/?project=<id>#projects`, or selects it in place when already on the home page); quorum case study; Download resume; Email; GitHub; LinkedIn (new tab); Toggle theme.
+- Items: About, Experience, Projects, Skills, Contact (scroll on the home page, navigate there from other pages); each of the 6 projects (opens `/?project=<id>#projects`, or selects it in place when already on the home page); quorum case study; Download resume; Email; GitHub; LinkedIn (new tab); Toggle theme.
 - Type to filter (label, group and keywords), ↑/↓ to move (wraps), Enter to run, Esc or a backdrop click to close.
 - Native `<dialog>` with `showModal()` (page behind is inert), `aria-label="Jump to"`; the input is a `combobox` over a `listbox` with `aria-activedescendant`; Tab stays on the input; focus returns to whatever opened it.
 - Desktop: centred panel (max 640px, `--surface-3`, radius 18, soft shadow, blurred backdrop). Phones (<600px): full-width sheet from the top.
