@@ -123,6 +123,14 @@
   margin-top: 24px;
 }
 
+/* Four buttons can't share one row in the details column, so they wrap as two
+   pairs (Play it live | Read case study, then Code | Ask about this). */
+.proj__actions:has(> :nth-child(4)) {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-items: start;
+}
+
 .proj__actions .btn {
   min-height: 44px;
   padding-inline: 18px;
@@ -218,6 +226,11 @@
 
 /* ---------- Phone: tabs become a scrolling row of pills ---------- */
 @media (max-width: 599px) {
+  /* Two buttons per row don't fit at phone width; let them wrap normally. */
+  .proj__actions:has(> :nth-child(4)) {
+    display: flex;
+  }
+
   /* Given: on phones a fixed-height stage leaves empty space under short projects.
      Approach: only the selected details layer takes up space (the preview stays a
      fixed 260px), and it fades in when it appears. */
@@ -429,32 +442,23 @@
 }
 
 /* ---------- Rush Hour Café: recording ---------- */
-/* Given: a wide (1192×408) recording in a preview area whose shape changes with the
-   layout (wide on desktop, short on tablet).
-   Approach: the area is a size container; the frame takes whichever is smaller,
-   the full width or the width that fits the height (26px = padding + border). */
+/* Given: a wide (1192×408) recording with a cream background of its own.
+   Approach: the whole preview area takes that cream (#FBF5E6, part of the recording,
+   so the same in both themes) and covers the dot grid. The video spans the full
+   width; object-fit: contain centres it vertically, and the cream above and below
+   blends into it. An inset 1px line keeps the panel edge visible in light mode. */
 .cafevid {
   display: grid;
-  place-items: center;
-  padding: 24px;
-  container-type: size;
-}
-
-.cafevid__frame {
-  width: min(100cqw, calc((100cqh - 26px) * 1192 / 408 + 26px));
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
+  align-items: center;
+  background: #fbf5e6;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .cafevid__video {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 1192 / 408;
+  height: 100%;
   object-fit: contain;
-  border-radius: 4px;
 }
 
 /* ---------- Quidd: phone frame ---------- */
@@ -556,10 +560,6 @@
 }
 
 @media (max-width: 899px) {
-  .cafevid {
-    padding: 14px;
-  }
-
   .quidd {
     font-size: 10.5px;
   }

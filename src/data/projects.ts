@@ -48,10 +48,10 @@ export const projects: Project[] = [
     name: 'Rush Hour Café',
     oneLiner: 'Robot waiters that plan collision-free routes around a café you lay out.',
     built:
-      'A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A*, and conflict-based search) and a raylib viewer compiled to WebAssembly. Two cafés run side by side so you can watch each planner handle the lunch rush.',
+      'A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A* and CBS), compiled to WebAssembly so it runs in the browser.',
     highlight:
-      'At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).',
-    tags: ['C++20', 'Multi-agent pathfinding', 'CBS', 'WebAssembly', 'raylib'],
+      'At 40 robots, CBS delivers 59× more than local rules (29,597 vs 500 orders over 20,000 ticks).',
+    tags: ['C++20', 'Pathfinding', 'CBS', 'WebAssembly'],
     preview: 'cafe-video',
     inProgress: true,
     code: 'https://github.com/PranaviGuttikonda/warehouse-world',
