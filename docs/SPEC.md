@@ -107,7 +107,7 @@ The design and build plan for this site. Later phases refer back to this file.
 | contact, email, reach, linkedin, github, resume | Email p.avigutti05@gmail.com, or find her on LinkedIn (linkedin.com/in/pranaviguttikonda) and GitHub (github.com/PranaviGuttikonda). The resume is at the bottom of the page. |
 | where, location, based, boston, relocate | She is based in Boston, MA. |
 | hi, hello, hey | Hi! Ask me about her experience, projects, skills, or availability. |
-| about, background, hobby, hobbies, outside, reading, books (only when no other row matches) | Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café. |
+| about, background, hobby, hobbies, outside, reading, books (only when no other row matches) | Pranavi is a software engineer doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café. |
 
 - Expose a global way to open the chat with a prefilled question (e.g. a custom DOM event `ask-pranavi` with the question text). The projects' "Ask about this" buttons use it: scroll to the chat, then send the question.
 

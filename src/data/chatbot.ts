@@ -113,6 +113,6 @@ export const qa: QA[] = [
     onlyIfNoOtherMatch: true,
     keywords: ['about', 'background', 'hobby', 'hobbies', 'outside', 'reading', 'books'],
     answer:
-      "Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café.",
+      "Pranavi is a software engineer doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café.",
   },
 ];
