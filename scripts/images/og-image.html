@@ -1,0 +1,94 @@
+<!doctype html>
+<!-- Template for public/og-image.png (1200×630). Rendered by scripts/render-images.mjs. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@600&display=block"
+    />
+    <style>
+      :root {
+        --bg: #0b1220;
+        --dot: #1c2740;
+        --text: #e6eaf2;
+        --muted: #a3adc2;
+        --accent: #8fa2ff;
+        --border: #1e2940;
+      }
+      * { margin: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; }
+      body {
+        position: relative;
+        overflow: hidden;
+        background-color: var(--bg);
+        background-image: radial-gradient(var(--dot) 1.6px, transparent 1.6px);
+        background-size: 28px 28px;
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+      }
+      .glow {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(620px circle at 92% 0%, rgba(143, 162, 255, 0.2), transparent 70%),
+          radial-gradient(520px circle at 0% 100%, rgba(45, 212, 191, 0.09), transparent 70%);
+      }
+      .content {
+        position: absolute;
+        inset: 72px 84px;
+        display: flex;
+        flex-direction: column;
+      }
+      .logo {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 30px;
+        font-weight: 600;
+      }
+      .logo span { color: var(--accent); }
+      .main { margin-top: auto; }
+      h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 104px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+      h1 .accent { color: var(--accent); }
+      .cursor {
+        display: inline-block;
+        width: 0.09em;
+        height: 0.9em;
+        margin-left: 0.1em;
+        vertical-align: -0.08em;
+        border-radius: 3px;
+        background: var(--accent);
+      }
+      .tagline {
+        margin-top: 28px;
+        font-size: 40px;
+        color: var(--muted);
+      }
+      .rule {
+        width: 120px;
+        height: 4px;
+        margin-top: 44px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <div class="content">
+      <p class="logo">pranavi<span>.</span>g</p>
+      <div class="main">
+        <h1>Pranavi <span class="accent">Guttikonda</span><span class="cursor"></span></h1>
+        <p class="tagline">Software engineer · Boston</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+  </body>
+</html>

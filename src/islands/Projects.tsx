@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Project, PreviewKind } from '../data/projects';
 import { askPranavi } from '../lib/ask';
+import { SELECT_PROJECT_EVENT } from '../lib/selectProject';
 import RaftCluster from './previews/RaftCluster';
 import CafeVideo from './previews/CafeVideo';
 import QuiddPhone from './previews/QuiddPhone';
@@ -41,6 +42,16 @@ export default function Projects({ projects }: Props) {
     const id = new URLSearchParams(window.location.search).get('project');
     const i = projects.findIndex((p) => p.id === id);
     if (i > 0) setActive(i);
+  }, []);
+
+  // The command palette selects a project without reloading the page.
+  useEffect(() => {
+    const onSelect = (e: WindowEventMap[typeof SELECT_PROJECT_EVENT]) => {
+      const i = projects.findIndex((p) => p.id === e.detail?.id);
+      if (i >= 0) setActive(i);
+    };
+    window.addEventListener(SELECT_PROJECT_EVENT, onSelect);
+    return () => window.removeEventListener(SELECT_PROJECT_EVENT, onSelect);
   }, []);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 

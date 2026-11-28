@@ -1,0 +1,182 @@
+/* Given: a "Jump to…" palette that matches the site in both themes.
+   Approach: a centred panel on desktop; a full-width sheet from the top on phones. */
+.cmdk {
+  width: min(640px, calc(100% - 32px));
+  max-width: none;
+  max-height: none;
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  overflow: visible;
+}
+
+.cmdk::backdrop {
+  background: rgba(5, 8, 15, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.cmdk[open] .cmdk__panel {
+  animation: cmdk-in 0.16s var(--ease);
+}
+
+@keyframes cmdk-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+}
+
+.cmdk__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: min(560px, 76vh);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-panel);
+  background: var(--surface-3);
+  box-shadow: 0 30px 80px -20px var(--shadow);
+  overflow: hidden;
+}
+
+/* ---------- Search row ---------- */
+.cmdk__search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cmdk__icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+}
+
+.cmdk__input {
+  flex: 1;
+  min-width: 0;
+  height: 58px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 17px;
+  outline: none;
+}
+
+.cmdk__input::placeholder {
+  color: var(--muted);
+}
+
+.cmdk__esc {
+  flex: none;
+  padding: 3px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ---------- Results ---------- */
+.cmdk__list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.cmdk__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cmdk__item[aria-selected='true'] {
+  background: var(--surface-2);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.cmdk__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.cmdk__item[aria-selected='true'] .cmdk__label {
+  color: var(--accent);
+}
+
+.cmdk__hint,
+.cmdk__group {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cmdk__group {
+  min-width: 56px;
+  text-align: right;
+}
+
+.cmdk__empty {
+  padding: 28px 18px 32px;
+  color: var(--muted);
+  font-size: 15px;
+  text-align: center;
+}
+
+.cmdk__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cmdk__footer kbd {
+  margin-right: 2px;
+  padding: 1px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  font-family: inherit;
+}
+
+/* ---------- Phones: full-width sheet from the top ---------- */
+@media (max-width: 599px) {
+  .cmdk {
+    width: 100%;
+    margin: 0;
+  }
+
+  .cmdk__panel {
+    max-height: 85dvh;
+    border-width: 0 0 1px;
+    border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+  }
+
+  .cmdk__hint {
+    display: none;
+  }
+
+  .cmdk__footer {
+    display: none;
+  }
+}

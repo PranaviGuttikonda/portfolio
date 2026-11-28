@@ -1,5 +1,6 @@
 ---
 import Chatbot from '../islands/Chatbot.tsx';
+import Cursor from './Cursor.astro';
 import { site } from '../data/site';
 
 const facts = [
@@ -22,9 +23,7 @@ const facts = [
         </p>
 
         <h1 id="hero-title" class="hero__title">
-          hi, I'm <span class="hero__nowrap"><span class="hero__accent">Pranavi</span>.<span
-              class="hero__cursor"
-              aria-hidden="true"></span></span>
+          hi, I'm <span class="hero__nowrap"><span class="hero__accent">Pranavi</span>.<Cursor /></span>
         </h1>
 
         <p class="hero__lede">
@@ -179,37 +178,6 @@ const facts = [
     white-space: nowrap;
   }
 
-  /* Given: a text cursor after the name, 1.05em tall, dipping ~0.15em below the baseline.
-     Approach: the span itself is zero-height on the baseline, so it never grows the
-     line box; ::after draws the bar from 0.15em below the baseline upward.
-     steps(1) makes the blink a hard on/off, 0.5s each. */
-  .hero__cursor {
-    position: relative;
-    display: inline-block;
-    width: 0.09em;
-    height: 0;
-    margin-left: 0.12em;
-    vertical-align: baseline;
-    animation: cursor-blink 1s steps(1) infinite;
-  }
-
-  .hero__cursor::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -0.15em;
-    width: 100%;
-    height: 1.05em;
-    border-radius: 2px;
-    background: var(--accent);
-  }
-
-  @keyframes cursor-blink {
-    50% {
-      opacity: 0;
-    }
-  }
-
   .hero__lede {
     max-width: 560px;
     margin-top: 24px;
@@ -312,7 +280,6 @@ const facts = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__cursor,
     .hero__pulse::after {
       animation: none;
     }

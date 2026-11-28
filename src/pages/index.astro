@@ -8,6 +8,7 @@ import Projects from '../islands/Projects.tsx';
 import { projects } from '../data/projects';
 import Toolbox from '../components/Toolbox.astro';
 import Contact from '../components/Contact.astro';
+import Education from '../components/Education.astro';
 ---
 
 <BaseLayout>
@@ -17,6 +18,7 @@ import Contact from '../components/Contact.astro';
     <SectionHeading num="01." title="Where I've worked" />
     <!-- client:idle, not :visible: hydrated before anyone scrolls here, so early clicks work. -->
     <Experience client:idle jobs={jobs} />
+    <Education />
   </section>
 
   <section id="projects" class="section container">
