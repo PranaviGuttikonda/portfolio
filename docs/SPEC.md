@@ -20,7 +20,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Phase 4, Projects** (project switcher, live quorum cluster island, previews, "Ask about this").
 - **Phase 5, Skills, contact, footer, resume PDF link.**
 - **Phase 6, quorum project page** at `/projects/quorum`.
-- **Phase 7, Polish:** ⌘K command palette, SEO meta + Open Graph image, favicon, sitemap, Lighthouse pass (aim for 95+ on all four scores), deploy config for Vercel.
+- **Phase 7, Polish:** ⌘K command palette, education block, custom 404 page, SEO meta + Open Graph image, favicon, sitemap + robots.txt, Vercel Web Analytics, Lighthouse pass (95+ on all four scores), Vercel deploy.
 
 ---
 
@@ -55,7 +55,7 @@ The design and build plan for this site. Later phases refer back to this file.
 ## Nav (sticky, bottom border)
 
 - **Left:** `pranavi.g` in JetBrains Mono, with the dot in accent color.
-- **Right:** `01. Experience`, `02. Projects`, `03. Skills`, `04. Contact` (numbers in mono accent), then the theme toggle (sun icon in dark mode, moon icon in light mode, 40×40), then a `Jump to… ⌘K` button (wired up in Phase 7).
+- **Right:** `01. Experience`, `02. Projects`, `03. Skills`, `04. Contact` (numbers in mono accent), then the theme toggle (sun icon in dark mode, moon icon in light mode, 40×40), then a `Jump to… ⌘K` button that opens the command palette (shows `Ctrl K` off Apple devices). Below 900px it becomes a 40×40 search icon button.
 - **Mobile:** links collapse into a menu button.
 
 ## Hero
@@ -258,3 +258,33 @@ All facts come from the quorum repo (github.com/PranaviGuttikonda/quorum: README
 - **Results:** three stat cards: "1,000" seeds per fuzz suite; "4" Raft safety invariants checked every tick; "Linearizability" checked on every client history.
 - **What's next** (from VISION.md): snapshots and log compaction; benchmarks across cluster sizes, delays and loss rates; a real-network transport.
 - **Footer links:** "← Back to all work" (`/#projects`) and "Next project: Rush Hour Café →" (`/?project=rush-hour-cafe#projects`, which opens the switcher with Rush Hour Café selected).
+
+## Education (Phase 7)
+
+A small block under the experience tabs, inside "01. Where I've worked" (so section numbering stays the same). Mono accent label "EDUCATION", two cards side by side (stacked below 768px). Data in `src/data/education.ts`.
+
+- **Northeastern University, Khoury College:** MS in Computer Science · Sep 2026 – May 2028 · Coursework: Programming Design Paradigm, Database Management Systems
+- **University of Central Missouri:** B.S. in Computer Science · May 2024 · GPA 3.62 · Cum Laude · Dean's List (Fall 2022, Spring 2023)
+
+## Command palette (Phase 7)
+
+- Opens from the nav's `Jump to… ⌘K` button or Cmd/Ctrl+K on every page (home, /projects/quorum, 404). Cmd/Ctrl+K again closes it.
+- Items: Experience, Projects, Skills, Contact (scroll on the home page, navigate there from other pages); each of the 6 projects (opens `/?project=<id>#projects`, or selects it in place when already on the home page); quorum case study; Download resume; Email; GitHub; LinkedIn (new tab); Toggle theme.
+- Type to filter (label, group and keywords), ↑/↓ to move (wraps), Enter to run, Esc or a backdrop click to close.
+- Native `<dialog>` with `showModal()` (page behind is inert), `aria-label="Jump to"`; the input is a `combobox` over a `listbox` with `aria-activedescendant`; Tab stays on the input; focus returns to whatever opened it.
+- Desktop: centred panel (max 640px, `--surface-3`, radius 18, soft shadow, blurred backdrop). Phones (<600px): full-width sheet from the top.
+
+## 404 page (Phase 7)
+
+"404: page not found" with the same blinking cursor as the hero (`src/components/Cursor.astro`), a line of muted text, and buttons "Home" (`/`) and "Projects" (`/#projects`). `noindex`, left out of the sitemap.
+
+## SEO, sharing and analytics (Phase 7)
+
+- **Site URL:** one value, `SITE_URL` in `astro.config.mjs` (currently https://pranaviguttikonda.vercel.app). Everything below reads it.
+- **Per page:** `<title>`, meta description, canonical URL, Open Graph (`og:title`, `og:description`, `og:url`, `og:image` 1200×630 + alt) and Twitter (`summary_large_image`) tags, `theme-color` for both schemes.
+- **Open Graph image:** `public/og-image.png`, rendered from `scripts/images/og-image.html` (dark theme, dot grid, "Pranavi Guttikonda" with the accent surname and cursor, "Software engineer · Boston") by `npm run images`.
+- **Favicon:** a "pg" monogram drawn as accent strokes on the dark background, `public/favicon.svg`, with `favicon-32.png` and `apple-touch-icon.png` (180×180) rendered from it by the same script.
+- **Sitemap** (`@astrojs/sitemap`, 404 excluded) and **robots.txt** (generated, points to the sitemap).
+- **Fonts:** self-hosted through Astro's `fonts` config with metric-matched fallbacks (no layout shift, no render-blocking third-party CSS).
+- **Analytics:** Vercel Web Analytics (`@vercel/analytics`), only included in builds that run on Vercel; no cookies, no banner.
+- **Lighthouse target:** 95+ on Performance, Accessibility, Best Practices and SEO for `/` and `/projects/quorum`, mobile and desktop.

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Cursor from '../components/Cursor.astro';
+---
+
+<BaseLayout
+  title="Page not found · Pranavi Guttikonda"
+  description="This page doesn't exist. Head back to the home page or the projects."
+  noindex
+>
+  <section class="nf dot-grid">
+    <div class="container nf__inner">
+      <p class="nf__code" aria-hidden="true">404</p>
+      <h1 class="nf__title">
+        404: page not found<Cursor />
+      </h1>
+      <p class="nf__text">The link may be old, or the page has moved.</p>
+      <div class="nf__actions">
+        <a href="/" class="btn btn--accent">Home</a>
+        <a href="/#projects" class="btn btn--outline">Projects</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: grid;
+    min-height: calc(100dvh - var(--nav-height) - 90px);
+    place-items: center;
+    padding-block: 72px;
+  }
+
+  .nf__inner {
+    text-align: center;
+  }
+
+  .nf__code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .nf__title {
+    margin-top: 14px;
+    font-size: clamp(34px, 7vw, 64px);
+    letter-spacing: -0.04em;
+  }
+
+  .nf__text {
+    margin-top: 16px;
+    font-size: 18px;
+    color: var(--muted);
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+</style>

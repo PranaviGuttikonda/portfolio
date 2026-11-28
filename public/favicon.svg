@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- "pg" monogram drawn as strokes (no font needed): accent on the dark theme bg. -->
+  <rect width="32" height="32" rx="7" fill="#0B1220"/>
+  <g fill="none" stroke="#8FA2FF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="14.5" r="4.3"/>
+    <path d="M6.7 10.2V25"/>
+    <circle cx="21.2" cy="14.5" r="4.3"/>
+    <path d="M25.5 10.2V20.6a4.1 4.1 0 0 1-4.1 4.1h-2.3"/>
+  </g>
+</svg>

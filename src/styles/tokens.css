@@ -51,9 +51,11 @@
 
 /* Theme-independent tokens */
 :root {
-  --font-heading: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Families come from Astro's font config (astro.config.mjs), which self-hosts them
+     and defines --font-inter etc. with metric-matched fallbacks. */
+  --font-heading: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 
   --max-width: 1160px;
   --gutter: 24px;
