@@ -13,8 +13,9 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { num: '01.', label: 'Experience', href: '/#experience' },
-  { num: '02.', label: 'Projects', href: '/#projects' },
-  { num: '03.', label: 'Skills', href: '/#skills' },
-  { num: '04.', label: 'Contact', href: '/#contact' },
+  { num: '01.', label: 'About', href: '/#about' },
+  { num: '02.', label: 'Experience', href: '/#experience' },
+  { num: '03.', label: 'Projects', href: '/#projects' },
+  { num: '04.', label: 'Skills', href: '/#skills' },
+  { num: '05.', label: 'Contact', href: '/#contact' },
 ] as const;

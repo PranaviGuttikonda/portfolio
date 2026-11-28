@@ -8,21 +8,25 @@ import Projects from '../islands/Projects.tsx';
 import { projects } from '../data/projects';
 import Toolbox from '../components/Toolbox.astro';
 import Contact from '../components/Contact.astro';
-import Education from '../components/Education.astro';
+import About from '../components/About.astro';
 ---
 
 <BaseLayout>
   <Hero />
 
+  <section id="about" class="section container">
+    <SectionHeading num="01." title="About" />
+    <About />
+  </section>
+
   <section id="experience" class="section container">
-    <SectionHeading num="01." title="Where I've worked" />
+    <SectionHeading num="02." title="Where I've worked" />
     <!-- client:idle, not :visible: hydrated before anyone scrolls here, so early clicks work. -->
     <Experience client:idle jobs={jobs} />
-    <Education />
   </section>
 
   <section id="projects" class="section container">
-    <SectionHeading num="02." title="Things I've built" />
+    <SectionHeading num="03." title="Things I've built" />
     <p class="section-intro">
       Pick a project to see what it does and how it's built. quorum runs live, so try crashing its
       leader.
@@ -32,7 +36,7 @@ import Education from '../components/Education.astro';
   </section>
 
   <section id="skills" class="section container">
-    <SectionHeading num="03." title="Toolbox" />
+    <SectionHeading num="04." title="Toolbox" />
     <Toolbox />
   </section>
 

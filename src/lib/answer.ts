@@ -3,7 +3,8 @@ import { qa, fallback, type QA } from '../data/chatbot';
 // Given: a free-text question and the keyword table in data/chatbot.ts.
 // Approach: score each entry by the total length of the keywords it matches, so a
 //   specific hit ("available") beats an incidental one ("open"). Ties go to the
-//   entry listed first. No match → the fallback line.
+//   entry listed first. Rows marked onlyIfNoOtherMatch are tried only when no other
+//   row matches. No match at all → the fallback line.
 
 const SHORT_KEYWORD = 3;
 
@@ -16,18 +17,24 @@ const wholeWord = (text: string, keyword: string) =>
 const matches = (text: string, keyword: string) =>
   keyword.length <= SHORT_KEYWORD ? wholeWord(text, keyword) : text.includes(keyword);
 
-export function matchAnswer(question: string, table: QA[] = qa): string {
-  const text = question.toLowerCase();
-  let best: { score: number; answer: string } | null = null;
-
-  for (const entry of table) {
+const bestMatch = (text: string, rows: QA[]): string | undefined => {
+  let best: { score: number; answer: string } | undefined;
+  for (const entry of rows) {
     const score = entry.keywords
       .filter((k) => matches(text, k.toLowerCase()))
       .reduce((sum, k) => sum + k.length, 0);
     if (score > 0 && (!best || score > best.score)) best = { score, answer: entry.answer };
   }
+  return best?.answer;
+};
 
-  return best?.answer ?? fallback;
+export function matchAnswer(question: string, table: QA[] = qa): string {
+  const text = question.toLowerCase();
+  return (
+    bestMatch(text, table.filter((r) => !r.onlyIfNoOtherMatch)) ??
+    bestMatch(text, table.filter((r) => r.onlyIfNoOtherMatch)) ??
+    fallback
+  );
 }
 
 // Given: the UI should not care where answers come from.

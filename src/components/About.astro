@@ -1,0 +1,174 @@
+---
+import { education, glance } from '../data/education';
+---
+
+<div class="about">
+  <div class="about__text">
+    <!-- Line breaks only between plain words: the HTML minifier drops a line break
+         that touches an element, and the space with it ("atNortheastern"). -->
+    <p>
+      I'm a software engineer currently pursuing my MS in CS at <span class="about__name">Northeastern University</span> in Boston.
+      Before that, I was a backend developer at <span class="about__name">GoQuant</span>, working on exchange integrations
+      and trading systems, and before that at <span class="about__name">DeepEdge</span> and <span class="about__name">Isaksai</span>.
+    </p>
+    <p>
+      Right now I'm looking for Summer 2027 internships and co-ops in backend, infrastructure and
+      systems work.
+    </p>
+    <p>
+      Outside of code, I'm usually reading or building something that probably didn't need to
+      exist, like a café run by robots.
+    </p>
+  </div>
+
+  <aside class="glance" aria-labelledby="glance-title">
+    <h3 class="glance__label" id="glance-title">AT A GLANCE</h3>
+
+    <ul class="glance__edu">
+      {
+        education.map((d) => (
+          <li class="glance__degree">
+            <p class="glance__dates">{d.dates}</p>
+            <p class="glance__school">{d.school}</p>
+            <p class="glance__title">{d.degree}</p>
+            <p class="glance__details">{d.details}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <dl class="glance__facts">
+      {
+        glance.map((f) => (
+          <div class="glance__fact">
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </aside>
+</div>
+
+<style>
+  /* Given: story on the left, quick facts on the right.
+     Approach: 3:2 columns on desktop (~60/40); stacked, text first, below 900px. */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+    gap: 56px;
+  }
+
+  .about__text {
+    display: grid;
+    gap: 20px;
+  }
+
+  .about__text p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--text-2);
+  }
+
+  .about__name {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* ---------- At a glance ---------- */
+  .glance {
+    padding: 26px 26px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+  }
+
+  .glance__label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .glance__edu {
+    display: grid;
+    gap: 20px;
+    margin-top: 18px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .glance__dates {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+
+  .glance__school {
+    margin-top: 4px;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .glance__title {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .glance__details {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .glance__facts {
+    margin-top: 22px;
+  }
+
+  .glance__fact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 13px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .glance__fact dt {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .glance__fact dd {
+    font-size: 15px;
+    color: var(--text);
+    text-align: right;
+  }
+
+  @media (max-width: 899px) {
+    .about {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .about__text p {
+      font-size: 17px;
+    }
+
+    .glance {
+      padding: 22px 20px 6px;
+    }
+  }
+</style>

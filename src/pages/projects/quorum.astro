@@ -138,8 +138,8 @@ const invariants = [
           <h2>What it does</h2>
           <ul class="cs__list">
             <li>
-              A replicated key-value store with <code>put</code>, <code>get</code>,
-              <code>delete</code> and <code>cas</code>, and exactly-once client requests.
+              <!-- One line: the minifier drops line breaks that touch an element. -->
+              A replicated key-value store with <code>put</code>, <code>get</code>, <code>delete</code> and <code>cas</code>, and exactly-once client requests.
             </li>
             <li>Built on Raft: leader election, log replication and persistence.</li>
             <li>Raft state is kept in checksummed files and recovered after crashes.</li>

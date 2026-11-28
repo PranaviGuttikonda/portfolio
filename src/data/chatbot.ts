@@ -6,6 +6,9 @@
 export interface QA {
   keywords: string[];
   answer: string;
+  // Answer only when no other row matches (a softer fallback before the
+  // "I don't have that one" line). For broad words like "about".
+  onlyIfNoOtherMatch?: boolean;
 }
 
 export const greeting =
@@ -42,7 +45,7 @@ export const qa: QA[] = [
       'At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System.',
   },
   {
-    keywords: ['building', 'project', 'projects', 'side', 'working on'],
+    keywords: ['building', 'project', 'projects', 'side project', 'working on'],
     answer:
       'Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below.',
   },
@@ -103,5 +106,13 @@ export const qa: QA[] = [
   {
     keywords: ['hi', 'hello', 'hey'],
     answer: 'Hi! Ask me about her experience, projects, skills, or availability.',
+  },
+  {
+    // "about" appears in "Tell me about …" and "What about …", so this row only answers
+    // when nothing more specific matches.
+    onlyIfNoOtherMatch: true,
+    keywords: ['about', 'background', 'hobby', 'hobbies', 'outside', 'reading', 'books'],
+    answer:
+      "Pranavi is a software engineer doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café.",
   },
 ];
