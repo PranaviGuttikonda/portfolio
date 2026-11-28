@@ -1,0 +1,45 @@
+---
+// The blinking text cursor used after the hero name and on the 404 page.
+// Sized in em, so it follows the font size of the heading it sits in.
+---
+
+<span class="cursor" aria-hidden="true"></span>
+
+<style>
+  /* Given: a text cursor after a heading, 1.05em tall, dipping ~0.15em below the baseline.
+     Approach: the span itself is zero-height on the baseline, so it never grows the
+     line box; ::after draws the bar from 0.15em below the baseline upward.
+     steps(1) makes the blink a hard on/off, 0.5s each. */
+  .cursor {
+    position: relative;
+    display: inline-block;
+    width: 0.09em;
+    height: 0;
+    margin-left: 0.12em;
+    vertical-align: baseline;
+    animation: cursor-blink 1s steps(1) infinite;
+  }
+
+  .cursor::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.15em;
+    width: 100%;
+    height: 1.05em;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  @keyframes cursor-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      animation: none;
+    }
+  }
+</style>
