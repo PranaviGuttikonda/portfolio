@@ -1,4 +1,4 @@
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Project, PreviewKind } from '../data/projects';
 import { askPranavi } from '../lib/ask';
 import RaftCluster from './previews/RaftCluster';
@@ -34,6 +34,14 @@ const renderPreview = (kind: PreviewKind, p: Project, active: boolean) => {
 //     also removes them from the tab order and the accessibility tree.
 export default function Projects({ projects }: Props) {
   const [active, setActive] = useState(0);
+
+  // Given: links like /?project=rush-hour-cafe#projects (from case study pages).
+  // Approach: on load, select the project whose id matches the query parameter.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('project');
+    const i = projects.findIndex((p) => p.id === id);
+    if (i > 0) setActive(i);
+  }, []);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const select = (i: number) => {

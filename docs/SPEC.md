@@ -157,14 +157,17 @@ The design and build plan for this site. Later phases refer back to this file.
 - **Stage:** full width of the container (surface, border, radius 18, overflow hidden).
   - Desktop (≥900px): a two-column card. Preview on the left (~55%, full card height, min 380px, dot grid); details on the right (~45%, padding 32px): name + "In progress" badge, the "What I built" paragraph, an optional `highlight` (one mono line, shown only when set), tag chips, then buttons.
   - Below 900px: the preview stacks on top (260px) with the details under it.
+  - Desktop text is kept short enough that the card stays ~382px tall at 1280px.
   - Tablet and desktop (≥600px): the stage height must not jump when switching projects (it keeps the height of the tallest project).
   - Phones (<600px): the card resizes to fit the selected project, so smaller projects don't leave empty space under their details.
 - **Buttons** (each only when it applies):
   - "Play it live →" (accent, new tab): only for projects with a `live` demo URL (quorum and Rush Hour Café). Same spot as "Read case study →".
   - "Read case study →": only for projects with a case-study page, which for now is only quorum. Accent on its own; outline when the project also has "Play it live →" (which then takes the accent).
   - "Code" (outline): only when the project has a code link.
+  - A project with four buttons (quorum) shows them as two pairs: "Play it live →" | "Read case study →", then "Code" | "Ask about this". On phones (<600px) they wrap normally.
   - "Ask about this" (outline, chat icon): sends "Tell me about <project name>" to the chatbot. Shown for all 6 projects; each has its own chatbot answer.
 - **Project tabs, below the stage:** a grid of all 6 projects. 3 per row on desktop (`repeat(3, minmax(0, 1fr))`, gap 12px), 2 per row on tablet, and a horizontal scroll row of compact pills on phones (<600px). Each tab shows the mono number, the name (Space Grotesk 18px), and the one-liner (14px, muted; hidden on phone pills). Selected: accent border + `--surface-2`; others: `--border` + `--surface`.
+- **Preselecting a project:** `/?project=<id>#projects` (e.g. `/?project=rush-hour-cafe#projects`) opens the home page with that project selected; an unknown id falls back to the first project.
 - **Tab semantics:** `role=tablist`/`tab`/`tabpanel`, `aria-selected`; arrow keys (left/right/up/down) move through the tabs in grid order; Home/End jump to the first/last.
 - **Switching projects:** quick crossfade (~200ms); no animation with `prefers-reduced-motion`.
 - **Not shown in the switcher:** each project's Problem and Result. They stay below for the project's case-study page.
@@ -185,12 +188,12 @@ The 6 projects, in this order:
 
 **02. Rush Hour Café** (In progress)
 - One-liner: "Robot waiters that plan collision-free routes around a café you lay out."
-- Preview: the recording, `<video autoplay muted loop playsinline preload="metadata" poster=…>` with `public/projects/rush-hour-cafe/rush-hour-cafe.webm` first, then `.mp4`; poster `rush-hour-cafe-poster.jpg`. Shown with `object-fit: contain` inside a rounded frame (radius 10px, 1px `--border`, padding ~12px) centered in the preview area. Plays only while Rush Hour Café is selected and pauses when switching away. With `prefers-reduced-motion` it doesn't autoplay: poster only. aria-label: "Recording of Rush Hour Café: two cafés side by side; robots under local rules jam at the kitchen counter while CBS keeps serving."
+- Preview: the recording, `<video autoplay muted loop playsinline preload="metadata" poster=…>` with `public/projects/rush-hour-cafe/rush-hour-cafe.webm` first, then `.mp4`; poster `rush-hour-cafe-poster.jpg`. No inner frame: the whole preview area takes the recording's own background, `#FBF5E6` (same in both themes, since it's part of the recording), with no dot grid, and a subtle 1px inset `--border` line on its edge. The video fills the full width edge to edge with `object-fit: contain`, centered vertically, so the cream above and below blends into it. Plays only while Rush Hour Café is selected and pauses when switching away. With `prefers-reduced-motion` it doesn't autoplay: poster only. aria-label: "Recording of Rush Hour Café: two cafés side by side; robots under local rules jam at the kitchen counter while CBS keeps serving."
 - Problem (case-study page only): Many robots sharing one floor have to reach their tables without colliding or deadlocking.
-- What I built: A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A*, and conflict-based search) and a raylib viewer compiled to WebAssembly. Two cafés run side by side so you can watch each planner handle the lunch rush.
-- Highlight (mono line under What I built): At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).
+- What I built: A C++20 multi-agent pathfinding sim with three planners (local rules, space-time A* and CBS), compiled to WebAssembly so it runs in the browser.
+- Highlight (mono line under What I built): At 40 robots, CBS delivers 59× more than local rules (29,597 vs 500 orders over 20,000 ticks).
 - Result (case-study page only): At 40 robots: CBS made 29,597 deliveries in 20,000 ticks; local rules made 500 (mean of 5 seeds).
-- Tags: C++20 · Multi-agent pathfinding · CBS · WebAssembly · raylib
+- Tags: C++20 · Pathfinding · CBS · WebAssembly
 - Live: https://pranaviguttikonda.github.io/warehouse-world/
 - Code: https://github.com/PranaviGuttikonda/warehouse-world
 - Buttons: "Play it live →", "Code", "Ask about this". No case-study page yet.
@@ -254,4 +257,4 @@ All facts come from the quorum repo (github.com/PranaviGuttikonda/quorum: README
 - **Testing:** the fuzz tests run 1,000 seeds each with random crashes, partitions, 10% message loss and 10% duplicate delivery while clients keep writing. Invariant checkers run after every tick (Election Safety, Log Matching, State Machine Safety, Leader Completeness, shown as chips), and every client history is checked for linearizability. Code block with the real command only: `$ QUORUM_FUZZ_SEEDS=200 ./build/tests/quorum_tests replication_fuzz`.
 - **Results:** three stat cards: "1,000" seeds per fuzz suite; "4" Raft safety invariants checked every tick; "Linearizability" checked on every client history.
 - **What's next** (from VISION.md): snapshots and log compaction; benchmarks across cluster sizes, delays and loss rates; a real-network transport.
-- **Footer links:** "← Back to all work" and "Next project: Rush Hour Café →" (both to `/#projects`).
+- **Footer links:** "← Back to all work" (`/#projects`) and "Next project: Rush Hour Café →" (`/?project=rush-hour-cafe#projects`, which opens the switcher with Rush Hour Café selected).
