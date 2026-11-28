@@ -1,0 +1,660 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects } from '../../data/projects';
+
+// Given: the quorum case study. Facts come from the quorum repo (README, docs/VISION.md).
+// Approach: one static page; links and tags come from the shared project data.
+const quorum = projects.find((p) => p.id === 'quorum')!;
+
+const sections = [
+  { id: 'problem', label: 'The problem' },
+  { id: 'what-it-does', label: 'What it does' },
+  { id: 'design', label: 'Design' },
+  { id: 'testing', label: 'Testing' },
+  { id: 'results', label: 'Results' },
+  { id: 'next', label: "What's next" },
+];
+
+const flow = [
+  { name: 'Client', detail: 'sends a command' },
+  { name: 'Leader', detail: 'appends to its log' },
+  { name: 'Followers ×4', detail: 'replicate · ack' },
+  { name: 'Majority ack', detail: 'commit · apply to KV' },
+];
+
+const decisions = [
+  {
+    title: 'One source of nondeterminism',
+    body: 'All randomness comes from a seeded, portable RNG. All time is simulated ticks. All messages go through the simulated network.',
+  },
+  {
+    title: 'Protocol code is I/O-free',
+    body: 'Raft nodes are state machines driven by messages and ticks, so a real transport can replace the simulated one without changing protocol logic.',
+  },
+  {
+    title: 'Crash-consistent storage',
+    body: 'Raft state lives in checksummed files, tested on a simulated disk where each crash is a power loss that drops or tears unsynced writes.',
+  },
+];
+
+const stats = [
+  { value: '1,000', label: 'seeds per fuzz suite' },
+  { value: '4', label: 'Raft safety invariants checked every tick' },
+  { value: 'Linearizability', label: 'checked on every client history' },
+];
+
+const invariants = [
+  'Election Safety',
+  'Log Matching',
+  'State Machine Safety',
+  'Leader Completeness',
+];
+---
+
+<BaseLayout
+  title="quorum · Pranavi Guttikonda"
+  description="A Raft-based replicated key-value store in C++20, tested with deterministic simulation."
+>
+  <article class="cs">
+    <!-- ---------- Top ---------- -->
+    <header class="cs__top dot-grid">
+      <div class="container">
+        <a href="/#projects" class="cs__back">← Back to all work</a>
+
+        <div class="cs__meta">
+          {quorum.inProgress && <span class="cs__badge">In progress</span>}
+          <ul class="cs__tags" aria-label="Technologies">
+            {quorum.tags.map((t) => <li class="chip">{t}</li>)}
+          </ul>
+        </div>
+
+        <h1 class="cs__title">quorum</h1>
+        <p class="cs__subtitle">
+          A Raft-based replicated key-value store in C++20, tested with deterministic simulation.
+        </p>
+
+        <div class="cs__actions">
+          <a href={quorum.live} class="btn btn--accent" target="_blank" rel="noopener noreferrer">
+            Play it live →
+          </a>
+          <a href={quorum.code} class="btn btn--outline" target="_blank" rel="noopener noreferrer">
+            View on GitHub
+          </a>
+        </div>
+
+        <figure class="cs__shot">
+          <div class="cs__frame">
+            <img
+              src="/projects/quorum/visualizer-split.png"
+              alt="quorum's visualizer during a network split"
+              width="2560"
+              height="1600"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <figcaption class="cs__caption">
+            <span>
+              The real engine, compiled to WebAssembly. Crash servers, split the network and send
+              commands while you watch elections, replication and commits happen.
+            </span>
+            <a href={quorum.live} class="btn btn--accent" target="_blank" rel="noopener noreferrer">
+              Play it live →
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <!-- ---------- Body: side menu + sections ---------- -->
+    <div class="container cs__body">
+      <nav class="cs__toc" aria-label="On this page">
+        <p class="cs__toc-label">ON THIS PAGE</p>
+        <ul>
+          {
+            sections.map((s) => (
+              <li>
+                <a href={`#${s.id}`} data-toc={s.id}>
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="cs__content">
+        <section id="problem" class="cs__section">
+          <h2>The problem</h2>
+          <p>
+            Bugs in distributed systems usually show up only under rare orderings of delays, message
+            losses, partitions and crashes. quorum makes those orderings reproducible: every source
+            of nondeterminism goes through one seeded simulator, so a failing run can be replayed
+            exactly from its seed.
+          </p>
+        </section>
+
+        <section id="what-it-does" class="cs__section">
+          <h2>What it does</h2>
+          <ul class="cs__list">
+            <li>
+              A replicated key-value store with <code>put</code>, <code>get</code>,
+              <code>delete</code> and <code>cas</code>, and exactly-once client requests.
+            </li>
+            <li>Built on Raft: leader election, log replication and persistence.</li>
+            <li>Raft state is kept in checksummed files and recovered after crashes.</li>
+          </ul>
+        </section>
+
+        <section id="design" class="cs__section">
+          <h2>Design</h2>
+          <ol class="cs__flow" aria-label="How a write is committed">
+            {
+              flow.map((step) => (
+                <li class="cs__step">
+                  <span class="cs__step-name">{step.name}</span>
+                  <span class="cs__step-detail">{step.detail}</span>
+                </li>
+              ))
+            }
+          </ol>
+
+          <div class="cs__cards">
+            {
+              decisions.map((d, i) => (
+                <div class="card cs__card">
+                  <p class="cs__card-num">DECISION {i + 1}</p>
+                  <h3>{d.title}</h3>
+                  <p>{d.body}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="testing" class="cs__section">
+          <h2>Testing</h2>
+          <p>
+            The fuzz tests run 1,000 seeds each with random crashes, partitions, 10% message loss
+            and 10% duplicate delivery while clients keep writing. Invariant checkers run after
+            every tick:
+          </p>
+          <ul class="cs__chips" aria-label="Invariants checked every tick">
+            {invariants.map((inv) => <li class="chip">{inv}</li>)}
+          </ul>
+          <p>Every client history is also checked for linearizability.</p>
+          <pre
+            class="cs__code"
+            tabindex="0"
+            aria-label="Command to run the replication fuzz test with 200 seeds"><code><span class="cs__prompt" aria-hidden="true">$ </span>QUORUM_FUZZ_SEEDS=200 ./build/tests/quorum_tests replication_fuzz</code></pre>
+        </section>
+
+        <section id="results" class="cs__section">
+          <h2>Results</h2>
+          <div class="cs__stats">
+            {
+              stats.map((s) => (
+                <div class="card cs__stat">
+                  <p class="cs__stat-value">{s.value}</p>
+                  <p class="cs__stat-label">{s.label}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="next" class="cs__section">
+          <h2>What's next</h2>
+          <ul class="cs__list">
+            <li>Snapshots and log compaction.</li>
+            <li>Benchmarks across cluster sizes, delays and loss rates.</li>
+            <li>A real-network transport.</li>
+          </ul>
+        </section>
+
+        <nav class="cs__footer-nav" aria-label="More projects">
+          <a href="/#projects">← Back to all work</a>
+          <a href="/#projects">Next project: Rush Hour Café →</a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<script>
+  // Given: a sticky side menu on desktop.
+  // Approach: mark the link for the section nearest the top of the viewport. The last
+  //   section can't scroll that high, so reaching the page bottom marks it; a click
+  //   marks its own link straight away.
+  const links = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>('[data-toc]')].map((a) => [a.dataset.toc!, a]),
+  );
+  const ids = [...links.keys()];
+
+  const mark = (id: string) => {
+    links.forEach((a) => a.removeAttribute('aria-current'));
+    links.get(id)?.setAttribute('aria-current', 'true');
+  };
+
+  const atBottom = () =>
+    Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight - 2;
+
+  // A clicked link stays marked until the visitor scrolls by hand again.
+  let pinned = false;
+  const unpin = () => (pinned = false);
+  ['wheel', 'touchmove', 'keydown'].forEach((t) =>
+    window.addEventListener(t, unpin, { passive: true }),
+  );
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (pinned || atBottom()) return;
+      for (const e of entries) if (e.isIntersecting) mark(e.target.id);
+    },
+    { rootMargin: '-20% 0px -70% 0px' },
+  );
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!pinned && atBottom()) mark(ids[ids.length - 1]!);
+    },
+    { passive: true },
+  );
+
+  links.forEach((a, id) =>
+    a.addEventListener('click', () => {
+      pinned = true;
+      mark(id);
+    }),
+  );
+</script>
+
+<style>
+  /* ---------- Top ---------- */
+  .cs__top {
+    padding-block: 48px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cs__back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--muted);
+    transition: color 0.2s var(--ease);
+  }
+
+  .cs__back:hover {
+    color: var(--accent);
+  }
+
+  .cs__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+  }
+
+  .cs__badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--warn-border);
+    color: var(--warn);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .cs__tags,
+  .cs__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cs__tags .chip {
+    background: var(--surface);
+  }
+
+  .cs__title {
+    margin-top: 20px;
+    font-size: clamp(44px, 7vw, 72px);
+    letter-spacing: -0.045em;
+  }
+
+  .cs__subtitle {
+    max-width: 680px;
+    margin-top: 14px;
+    font-size: clamp(17px, 2vw, 20px);
+    color: var(--muted);
+  }
+
+  .cs__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .cs__shot {
+    margin-top: 48px;
+  }
+
+  .cs__frame {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--surface);
+    box-shadow: 0 30px 80px -30px var(--shadow);
+  }
+
+  .cs__frame img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .cs__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    margin-top: 18px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .cs__caption span {
+    flex: 1 1 360px;
+  }
+
+  /* ---------- Body ---------- */
+  .cs__body {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 56px;
+    padding-block: 72px 96px;
+  }
+
+  .cs__toc {
+    position: sticky;
+    top: calc(var(--nav-height) + 32px);
+    align-self: start;
+  }
+
+  .cs__toc-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .cs__toc ul {
+    display: grid;
+    margin-top: 14px;
+    padding: 0;
+    list-style: none;
+    border-left: 2px solid var(--border-strong);
+  }
+
+  .cs__toc a {
+    display: block;
+    margin-left: -2px;
+    padding: 7px 14px;
+    border-left: 2px solid transparent;
+    font-size: 14.5px;
+    color: var(--muted);
+    transition:
+      color 0.2s var(--ease),
+      border-color 0.2s var(--ease);
+  }
+
+  .cs__toc a:hover {
+    color: var(--text);
+  }
+
+  .cs__toc a[aria-current] {
+    border-left-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .cs__content {
+    min-width: 0;
+    max-width: 780px;
+  }
+
+  .cs__section {
+    scroll-margin-top: calc(var(--nav-height) + 24px);
+  }
+
+  .cs__section + .cs__section {
+    margin-top: 64px;
+  }
+
+  .cs__section h2 {
+    font-size: clamp(26px, 3vw, 32px);
+  }
+
+  .cs__section > p {
+    margin-top: 16px;
+    font-size: 17px;
+    color: var(--text-2);
+  }
+
+  .cs__section > .cs__chips {
+    margin-top: 14px;
+  }
+
+  .cs__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cs__list li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 17px;
+    color: var(--text-2);
+  }
+
+  .cs__list li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .cs__content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--text);
+  }
+
+  /* Flow diagram: four steps joined by arrows; vertical on narrow screens. */
+  .cs__flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 24px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cs__step {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding: 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .cs__step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: -22px;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+  .cs__step:last-child {
+    border-color: var(--accent);
+  }
+
+  .cs__step-name {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .cs__step-detail {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .cs__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .cs__card {
+    padding: 22px;
+  }
+
+  .cs__card-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .cs__card h3 {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+
+  .cs__card p:last-child {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .cs__code {
+    margin-top: 20px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-3);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .cs__prompt {
+    color: var(--accent);
+    user-select: none;
+  }
+
+  .cs__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .cs__stat {
+    padding: 24px 22px;
+  }
+
+  .cs__stat-value {
+    font-family: var(--font-mono);
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 600;
+    color: var(--accent);
+    overflow-wrap: anywhere;
+  }
+
+  .cs__stat-label {
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+
+  .cs__footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .cs__footer-nav a {
+    color: var(--text-2);
+    transition: color 0.2s var(--ease);
+  }
+
+  .cs__footer-nav a:hover {
+    color: var(--accent);
+  }
+
+  /* ---------- Tablet and below: no side menu ---------- */
+  @media (max-width: 959px) {
+    .cs__body {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: 48px 72px;
+    }
+
+    .cs__toc {
+      display: none;
+    }
+  }
+
+  /* ---------- Narrow: the flow stacks vertically ---------- */
+  @media (max-width: 759px) {
+    .cs__flow {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 26px;
+    }
+
+    .cs__step:not(:last-child)::after {
+      content: '↓';
+      top: auto;
+      right: auto;
+      bottom: -24px;
+      left: 20px;
+      transform: none;
+    }
+  }
+
+  /* ---------- Phones: cards and stats in one column ---------- */
+  @media (max-width: 599px) {
+    .cs__cards,
+    .cs__stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
