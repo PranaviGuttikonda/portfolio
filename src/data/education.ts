@@ -26,6 +26,5 @@ export const education: Degree[] = [
 // Short facts under the education rows.
 export const glance = [
   { label: 'BASED IN', value: 'Boston, MA' },
-  { label: 'FROM', value: 'India' },
   { label: 'WORKS IN', value: 'C++ · Python · Java' },
 ];

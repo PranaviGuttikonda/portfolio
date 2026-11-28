@@ -121,7 +121,7 @@ The design and build plan for this site. Later phases refer back to this file.
 - **"At a glance" card** (surface, 1px border, radius 16): mono label "AT A GLANCE", then two education rows (dates in mono accent, school in Space Grotesk, degree, details in muted text):
   - Sep 2026 – May 2028 · Northeastern University · MS in Computer Science · Coursework: Programming Design Paradigm, Database Management Systems
   - May 2024 · University of Central Missouri · B.S. in Computer Science · GPA 3.62 · Cum Laude · Dean's List
-  - Then three fact rows (mono label left, value right, thin borders between): BASED IN: Boston, MA · FROM: India · WORKS IN: C++ · Python · Java
+  - Then two fact rows (mono label left, value right, thin borders between): BASED IN: Boston, MA · WORKS IN: C++ · Python · Java
 - Data in `src/data/education.ts`. Education appears only here.
 
 ## 02. Where I've worked (tabs, Preact island)
