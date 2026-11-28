@@ -45,7 +45,7 @@ export const qa: QA[] = [
       'At Isaksai Solutions (Aug – Nov 2023) she worked on REST APIs and T-SQL/SSIS pipelines for the NYSDOT–DMV Accident Information System.',
   },
   {
-    keywords: ['building', 'project', 'projects', 'side', 'working on'],
+    keywords: ['building', 'project', 'projects', 'side project', 'working on'],
     answer:
       'Right now: quorum, a Raft-replicated key-value store in C++20 with deterministic simulation testing; Rush Hour Café, a multi-agent pathfinding simulation; and Quidd, a personal finance app. All three are in the Projects section below.',
   },
