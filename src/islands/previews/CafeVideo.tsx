@@ -35,24 +35,22 @@ export default function CafeVideo({ active }: Props) {
 
   return (
     <div class="cafevid">
-      <div class="cafevid__frame">
-        <video
-          ref={ref}
-          class="cafevid__video"
-          autoplay={play}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={`${BASE}-poster.jpg`}
-          width={1192}
-          height={408}
-          aria-label="Recording of Rush Hour Café: two cafés side by side; robots under local rules jam at the kitchen counter while CBS keeps serving."
-        >
-          <source src={`${BASE}.webm`} type="video/webm" />
-          <source src={`${BASE}.mp4`} type="video/mp4" />
-        </video>
-      </div>
+      <video
+        ref={ref}
+        class="cafevid__video"
+        autoplay={play}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={`${BASE}-poster.jpg`}
+        width={1192}
+        height={408}
+        aria-label="Recording of Rush Hour Café: two cafés side by side; robots under local rules jam at the kitchen counter while CBS keeps serving."
+      >
+        <source src={`${BASE}.webm`} type="video/webm" />
+        <source src={`${BASE}.mp4`} type="video/mp4" />
+      </video>
     </div>
   );
 }
