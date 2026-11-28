@@ -104,4 +104,10 @@ export const qa: QA[] = [
     keywords: ['hi', 'hello', 'hey'],
     answer: 'Hi! Ask me about her experience, projects, skills, or availability.',
   },
+  {
+    // Last, so ties with more specific rows go to them ("Tell me about …" contains "about").
+    keywords: ['about', 'background', 'hobby', 'hobbies', 'outside', 'reading', 'books'],
+    answer:
+      "Pranavi is a software engineer from India, now doing her MS in CS at Northeastern in Boston. Outside of code she's usually reading or building side projects like Rush Hour Café.",
+  },
 ];
