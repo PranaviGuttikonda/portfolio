@@ -34,9 +34,20 @@ import { navLinks } from '../data/site';
         </svg>
       </button>
 
-      <!-- Command palette opens from here in a later phase. -->
-      <button type="button" class="nav__jump" data-command-palette>
-        Jump to… <kbd>⌘K</kbd>
+      <!-- Opens the command palette (src/islands/CommandPalette.tsx). -->
+      <button
+        type="button"
+        class="nav__jump"
+        data-command-palette
+        aria-haspopup="dialog"
+        aria-label="Jump to… (⌘K)"
+      >
+        <svg class="nav__jump-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <span class="nav__jump-text">Jump to…</span>
+        <kbd data-shortcut>⌘K</kbd>
       </button>
 
       <button
@@ -99,6 +110,14 @@ import { navLinks } from '../data/site';
   });
 
   syncLabel();
+
+  // Show Ctrl K instead of ⌘K off Apple platforms.
+  if (!/Mac|iPhone|iPad|iPod/.test(navigator.userAgent)) {
+    document.querySelectorAll('[data-shortcut]').forEach((k) => (k.textContent = 'Ctrl K'));
+    document
+      .querySelector('[data-command-palette]')
+      ?.setAttribute('aria-label', 'Jump to… (Ctrl+K)');
+  }
 
   // Given: on small screens the links collapse behind a menu button.
   // Approach: toggle a class + aria-expanded; close on link click, Escape, or resize to desktop.
@@ -229,6 +248,12 @@ import { navLinks } from '../data/site';
     color: var(--text);
   }
 
+  .nav__jump-icon {
+    display: none;
+    width: 18px;
+    height: 18px;
+  }
+
   .nav__jump kbd {
     padding: 2px 6px;
     border-radius: 6px;
@@ -250,7 +275,20 @@ import { navLinks } from '../data/site';
       display: inline-grid;
     }
 
+    /* Phones/tablets: the jump button shrinks to a 40×40 search icon. */
     .nav__jump {
+      justify-content: center;
+      width: 40px;
+      padding: 0;
+      color: var(--text-2);
+    }
+
+    .nav__jump-icon {
+      display: block;
+    }
+
+    .nav__jump-text,
+    .nav__jump kbd {
       display: none;
     }
 
